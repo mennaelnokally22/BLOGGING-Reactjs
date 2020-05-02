@@ -58,14 +58,16 @@ export default function Navbar() {
                 <HomeIcon fontSize='large' color='secondary' />
               </IconButton>
             </Link>
-            <IconButton
-              aria-label='account of current user'
-              aria-haspopup='true'
-              color='inherit'
-            >
-              <Typography variant='h6'>Anonymous</Typography>
-              <AccountCircle fontSize='large' color='secondary' />
-            </IconButton>
+            <Link to={'/profile/:id'} className={classes.resetLink}>
+              <IconButton
+                aria-label='account of current user'
+                aria-haspopup='true'
+                color='inherit'
+              >
+                <Typography variant='h6'>Anonymous</Typography>
+                <AccountCircle fontSize='large' color='secondary' />
+              </IconButton>
+            </Link>
           </div>
         </Toolbar>
       </AppBar>

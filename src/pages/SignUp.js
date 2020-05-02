@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,6 +15,8 @@ import { string, object } from 'yup';
 import { toast } from 'react-toastify';
 
 import { makeStyles } from '@material-ui/core/styles';
+
+import { addUser } from '../actions/user';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -55,7 +58,7 @@ const schema = object().shape({
     .required('Password is required!'),
 });
 
-const SignUp = ({ history }) => {
+const SignUp = ({ history, addUser }) => {
   const classes = useStyles();
 
   const { register, handleSubmit, errors, formState } = useForm({
@@ -64,8 +67,8 @@ const SignUp = ({ history }) => {
   });
 
   const onSubmit = async (data) => {
-    toast.success(`Signed up Successfully & You're logged in now`);
-    console.log(data);
+    toast.success(`Signed up Successfully , Go and sign in now`);
+    addUser({ ...data });
     history.replace('/sign-in');
   };
 
@@ -162,4 +165,8 @@ const SignUp = ({ history }) => {
   );
 };
 
-export default SignUp;
+const mapDispatchToProps = (dispatch) => ({
+  addUser: (user) => dispatch(addUser(user)),
+});
+
+export default connect(null, mapDispatchToProps)(SignUp);

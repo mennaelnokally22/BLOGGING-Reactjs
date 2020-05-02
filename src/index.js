@@ -8,9 +8,13 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import store from './store/store';
 
+import CssBaseline from '@material-ui/core/CssBaseline';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
+      <CssBaseline />
       <App />
     </Provider>
   </BrowserRouter>,
