@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -59,7 +60,9 @@ const BlogCard = ({
               </Avatar>
             </Grid>
             <Grid item>
-              <Typography variant='h4'>{author}</Typography>
+              <Link to={`/profile/${id}`} className={classes.link}>
+                <Typography variant='h4'>{author}</Typography>
+              </Link>
             </Grid>
           </Grid>
           <Typography variant='h4'>{title}</Typography>

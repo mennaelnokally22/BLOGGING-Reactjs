@@ -47,6 +47,14 @@ const useStyles = makeStyles((theme) => ({
   mr: {
     marginRight: theme.spacing(2),
   },
+  link: {
+    color: 'black',
+    textDecoration: 'none',
+
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 }));
 
 export default useStyles;

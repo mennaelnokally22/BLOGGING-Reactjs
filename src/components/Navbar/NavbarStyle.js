@@ -66,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  txtColor: {
+    color: 'white',
+  },
 }));
 
 export default useStyles;
