@@ -74,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '16px',
     backgroundColor: theme.palette.info.main,
   },
+  dropZone: {
+    backgroundColor: '#444040',
+  },
 }));
 
 export { useStyles, theme };

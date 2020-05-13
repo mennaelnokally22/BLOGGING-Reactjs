@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 
 import { useStyles, theme } from './BlogAddStyle';
 import { ThemeProvider } from '@material-ui/core/styles';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 import { onAddBlog } from '../../actions/blog';
 
@@ -88,6 +89,14 @@ const BlogAdd = ({ onAddBlog }) => {
                 variant='outlined'
                 margin='normal'
                 inputRef={register}
+              />
+              <DropzoneArea
+                acceptedFiles={['image/*']}
+                filesLimit={1}
+                dropzoneText={`Drag & Drop image here or click`}
+                maxFileSize={(1000 * 1000) / 2}
+                showPreviewsInDropzone={false}
+                dropzoneClass={classes.dropZone}
               />
               <Button
                 type='submit'
