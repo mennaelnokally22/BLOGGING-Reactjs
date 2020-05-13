@@ -94,7 +94,7 @@ const BlogCard = ({
               {auth.token && (
                 <Typography variant='h4'>
                   <Link to={`/profile/${authorId}`} className={classes.link}>
-                    {author}
+                    {`${author} ${authorLast}`}
                   </Link>
                 </Typography>
               )}
