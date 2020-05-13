@@ -1,19 +1,23 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
+
+import axios from 'axios';
 
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import Badge from '@material-ui/core/Badge';
+import Fab from '@material-ui/core/Fab';
+import Container from '@material-ui/core/Container';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import BlogCard from '../components/Blog/Blog';
-
-const getUserName = (author, users) => {
-  const { firstName } = users.find((user) => user.id === author);
-  return firstName;
-};
 
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
@@ -41,9 +45,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
   },
   mb: {
-    marginBottom: theme.spacing(3),
-    marginTop: theme.spacing(3),
+    padding: theme.spacing(4),
     margin: '0 auto',
+    color: 'rgba(255, 255, 255, 0.7)',
   },
   link: {
     color: 'black',
@@ -53,51 +57,118 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'underline',
     },
   },
+  linkIcon: {
+    color: 'white',
+    textDecoration: 'none',
+  },
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: theme.spacing(4),
+    marginTop: theme.spacing(4),
+  },
 }));
 
-const SearchResult = ({ searchData, blogs, users }) => {
-  let filteredBlogs = [];
-  let filteredUsers = [];
-  if (searchData.activeFilter === 2) {
-    filteredBlogs = blogs.filter((blog) =>
-      blog.title
-        .toLocaleLowerCase()
-        .includes(searchData.searchText.toLocaleLowerCase())
-    );
-  } else if (searchData.activeFilter === 3) {
-    filteredBlogs = blogs.filter((blog) =>
-      blog.tags.includes(searchData.searchText.trim())
-    );
-  } else if (searchData.activeFilter === 1) {
-    filteredUsers = users.filter(
-      (user) =>
-        user.firstName
-          .toLocaleLowerCase()
-          .includes(searchData.searchText.trim().toLocaleLowerCase()) ||
-        user.lastName
-          .toLocaleLowerCase()
-          .includes(searchData.searchText.trim().toLocaleLowerCase())
-    );
-  }
+const SearchResult = ({ searchData, auth, history }) => {
+  const [filteredBlogss, setFilteredBlogs] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
+  useEffect(() => {
+    console.log(auth.token);
+    (async () => {
+      if (searchData.activeFilter === 2) {
+        axios
+          .get(
+            `http://localhost:3000/blog/search?title=${searchData.searchText}`,
+            { headers: { Authorization: auth.token } }
+          )
+          .then((response) => {
+            console.log(response.data);
+            setFilteredBlogs(response.data);
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+            if (err.response.data.message == 'Token expired!') {
+              console.log('here');
+              toast.error('Your session has expired go and sign in again!');
+              localStorage.setItem('expired', '1');
+              history.replace('/sign-in');
+            }
+          });
+      } else if (searchData.activeFilter === 3) {
+        axios
+          .get(
+            `http://localhost:3000/blog/search?tag=${searchData.searchText.substring(
+              1
+            )}`,
+            {
+              headers: { Authorization: auth.token },
+            }
+          )
+          .then((response) => {
+            console.log(response.data);
+            setFilteredBlogs(response.data);
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+            if (err.response.data.message == 'Token expired!') {
+              console.log('here');
+              toast.error('Your session has expired go and sign in again!');
+              localStorage.setItem('expired', '1');
+              history.replace('/sign-in');
+            }
+          });
+      } else if (searchData.activeFilter === 1) {
+        axios
+          .get(
+            `http://localhost:3000/user/search?name=${searchData.searchText}`,
+            {
+              headers: { Authorization: auth.token },
+            }
+          )
+          .then((response) => {
+            console.log(response.data);
+            setFilteredUsers(response.data.users);
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+            if (err.response.data.message == 'Token expired!') {
+              console.log('here');
+              toast.error('Your session has expired go and sign in again!');
+              localStorage.setItem('expired', '1');
+              history.replace('/sign-in');
+            }
+          });
+      }
+    })();
+  }, []);
+
   const classes = useStyles();
   return (
-    <Fragment>
+    <Container>
       <Typography variant='h4' className={classes.mb}>
         Your search results
       </Typography>
-      {filteredBlogs.map((blog) => (
+      {filteredBlogss.length === 0 && (
+        <Container className={classes.root}>
+          <CircularProgress color='secondary' />
+        </Container>
+      )}
+      {filteredBlogss.map((blog) => (
         <BlogCard
-          key={blog.id}
-          id={blog.id}
+          key={blog._id}
+          id={blog._id}
           title={blog.title}
           body={blog.body}
-          author={getUserName(blog.authorId, users)}
+          author={blog.authorId.firstName}
+          authorId={blog.authorId._id}
           createdAt={blog.createdAt}
           tags={blog.tags}
         />
       ))}
       {filteredUsers.map((user) => (
-        <Paper key={user.id} className={classes.card}>
+        <Paper key={user._id} className={classes.card}>
           <Grid container alignItems='center' spacing={2}>
             <Grid item>
               <Avatar
@@ -109,20 +180,24 @@ const SearchResult = ({ searchData, blogs, users }) => {
               </Avatar>
             </Grid>
             <Grid item>
-              <Link to={`/profile/${user.id}`} className={classes.link}>
+              <Link to={`/profile/${user._id}`} className={classes.link}>
                 <Typography variant='h4'>{`${user.firstName} ${user.lastName}`}</Typography>
               </Link>
             </Grid>
           </Grid>
         </Paper>
       ))}
-    </Fragment>
+      <Fab color='secondary'>
+        <Link to={'/home'} className={classes.linkIcon}>
+          <ArrowBackIcon />
+        </Link>
+      </Fab>
+    </Container>
   );
 };
 
 const mapStateToProps = (state) => ({
   searchData: state.search,
-  blogs: state.blogs,
-  users: state.users,
+  auth: state.auth,
 });
 export default connect(mapStateToProps)(SearchResult);

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   mainSec: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.info.main,
     borderRadius: '20px',
     position: 'relative',
   },

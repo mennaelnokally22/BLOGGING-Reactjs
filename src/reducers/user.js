@@ -33,21 +33,32 @@ const usersReducer = (state = userReducerDefaultState, action) => {
       return state.map((user) =>
         user.id !== action.id ? user : { ...user, ...action.updates }
       );
-    case 'ADD_FOLLOWING':
-      return state.map((user) =>
-        user.id !== action.userId
-          ? user
-          : { ...user, ...user.followingUsers.concat(action.followingId) }
-      );
-    case 'REMOVE_FOLLOWING':
-      return state.map((user) =>
-        user.id !== action.userId
-          ? user
-          : {
-              ...user,
-              ...user.followingUsers.filter((id) => id !== action.followingId),
-            }
-      );
+    // case 'ADD_FOLLOWING':
+    //   return state.map((user) =>
+    //     user.id !== action.userId
+    //       ? user
+    //       : { ...user, ...user.followingUsers.concat(action.followingId) }
+    //   );
+    // case 'REMOVE_FOLLOWING':
+    //   return state.map((user) =>
+    //     user.id !== action.userId
+    //       ? user
+    //       : {
+    //           ...user,
+    //           ...user.followingUsers.filter((id) => id !== action.followingId),
+    //         }
+    //   );
+    case 'TOGGLE_FOLLOWING':
+      const user = state.find((user) => user.id === action.userId);
+      if (!user.followingUsers.includes(action.followingId)) {
+        user.followingUsers.push(action.followingId);
+      } else {
+        const followingUsers = user.followingUsers.filter(
+          (ele) => ele !== action.followingId
+        );
+        user.followingUsers = followingUsers;
+      }
+      return state.map((us) => (us.id !== action.userId ? us : { ...user }));
     default:
       return state;
   }

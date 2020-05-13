@@ -1,4 +1,14 @@
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiTabs: {
+      indicator: {
+        backgroundColor: '#2196f3',
+      },
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -69,6 +79,12 @@ const useStyles = makeStyles((theme) => ({
   txtColor: {
     color: 'white',
   },
+  dark: {
+    backgroundColor: '#212121',
+  },
+  iconColor: {
+    color: theme.palette.info.main,
+  },
 }));
 
-export default useStyles;
+export { useStyles, theme };

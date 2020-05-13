@@ -15,8 +15,31 @@ import { string, object } from 'yup';
 import { toast } from 'react-toastify';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-import { addUser } from '../actions/user';
+import { signUp } from '../actions/user';
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiButton: {
+      root: {
+        fontWeight: 'bold',
+        margin: '10px',
+        '&:hover': {
+          backgroundColor: 'green',
+        },
+      },
+      containedPrimary: {
+        backgroundColor: '#3498db',
+      },
+    },
+    MuiFormLabel: {
+      root: {
+        color: 'darkgray',
+      },
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,12 +60,19 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   link: {
-    color: theme.palette.primary.main,
+    color: theme.palette.info.main,
     textDecoration: 'none',
 
     '&:hover': {
       textDecoration: 'underline',
     },
+  },
+  main: {
+    paddingTop: '100px',
+    paddingBottom: '100px',
+  },
+  heading: {
+    color: 'darkgray',
   },
 }));
 
@@ -58,7 +88,7 @@ const schema = object().shape({
     .required('Password is required!'),
 });
 
-const SignUp = ({ history, addUser }) => {
+const SignUp = ({ history, signUp }) => {
   const classes = useStyles();
 
   const { register, handleSubmit, errors, formState } = useForm({
@@ -67,106 +97,114 @@ const SignUp = ({ history, addUser }) => {
   });
 
   const onSubmit = async (data) => {
-    toast.success(`Signed up Successfully , Go and sign in now`);
-    addUser({ ...data });
-    history.replace('/sign-in');
+    signUp({ ...data })
+      .then((data) => {
+        toast.success(`Signed up Successfully , Go and sign in now`);
+        history.replace('/sign-in');
+        console.log(data);
+      })
+      .catch((err) => {
+        toast.error(`Seems that this email is already registered!`);
+      });
   };
 
   return (
-    <Container component='main' maxWidth='xs'>
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component='h1' variant='h5'>
-          Sign up
-        </Typography>
-        <form
-          className={classes.form}
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                name='firstName'
-                variant='standard'
-                fullWidth
-                id='firstName'
-                label='First Name'
-                error={!!errors.firstName}
-                helperText={errors.firstName?.message}
-                inputRef={register}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant='standard'
-                fullWidth
-                id='lastName'
-                label='Last Name'
-                name='lastName'
-                error={!!errors.lastName}
-                helperText={errors.lastName?.message}
-                inputRef={register}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant='standard'
-                fullWidth
-                id='email'
-                label='Email Address'
-                name='email'
-                error={!!errors.email}
-                helperText={errors.email?.message}
-                inputRef={register}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant='standard'
-                fullWidth
-                name='password'
-                label='Password'
-                type='password'
-                id='password'
-                error={!!errors.password}
-                helperText={errors.password?.message}
-                inputRef={register}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            color='primary'
-            className={classes.submit}
-            disabled={formState.isSubmitting}
+    <ThemeProvider theme={theme}>
+      <Container component='main' maxWidth='xs' className={classes.main}>
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component='h1' variant='h5' className={classes.heading}>
+            Sign up
+          </Typography>
+          <form
+            className={classes.form}
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
           >
-            Sign Up
-          </Button>
-          <Grid container justify='flex-end'>
-            <Grid item>
-              <Link to='/sign-in' className={classes.link}>
-                Already have an account? Sign in
-              </Link>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  name='firstName'
+                  variant='standard'
+                  fullWidth
+                  id='firstName'
+                  label='First Name'
+                  error={!!errors.firstName}
+                  helperText={errors.firstName?.message}
+                  inputRef={register}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant='standard'
+                  fullWidth
+                  id='lastName'
+                  label='Last Name'
+                  name='lastName'
+                  error={!!errors.lastName}
+                  helperText={errors.lastName?.message}
+                  inputRef={register}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant='standard'
+                  fullWidth
+                  id='email'
+                  label='Email Address'
+                  name='email'
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                  inputRef={register}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant='standard'
+                  fullWidth
+                  name='password'
+                  label='Password'
+                  type='password'
+                  id='password'
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
+                  inputRef={register}
+                />
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link to='/home' className={classes.link}>
-                Or continue as anonymous user
-              </Link>
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='primary'
+              className={classes.submit}
+              disabled={formState.isSubmitting}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify='flex-end'>
+              <Grid item>
+                <Link to='/sign-in' className={classes.link}>
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to='/home' className={classes.link}>
+                  Or continue as anonymous user
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+          </form>
+        </div>
+      </Container>
+    </ThemeProvider>
   );
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addUser: (user) => dispatch(addUser(user)),
+  signUp: (user) => dispatch(signUp(user)),
 });
 
 export default connect(null, mapDispatchToProps)(SignUp);

@@ -1,4 +1,13 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
+const theme = createMuiTheme({
+  overrides: {
+    MuiFormLabel: {
+      root: {
+        color: 'darkgray',
+      },
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
@@ -17,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(4),
   },
   avatar: {
-    backgroundColor: theme.palette.info.main,
+    backgroundColor: theme.palette.primary.main,
   },
   mt: {
     marginTop: theme.spacing(2),
@@ -38,10 +47,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(3),
   },
   tags: {
-    border: `2px solid ${theme.palette.info.main}`,
-    borderRadius: '22px',
-    color: theme.palette.info.main,
-    padding: '2px',
+    backgroundColor: 'lightskyblue',
+    border: '2px solid lightskyblue',
+    borderRadius: '12px',
   },
   timeContainer: {
     display: 'flex',
@@ -50,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   link: {
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: 'black',
     textDecoration: 'none',
 
     '&:hover': {
@@ -60,9 +68,12 @@ const useStyles = makeStyles((theme) => ({
   txtColor: {
     color: 'rgba(255, 255, 255, 0.7)',
   },
-  iconColor: {
-    color: theme.palette.info.main,
+  submitBtn: {
+    display: 'block',
+    marginLeft: 'auto',
+    marginTop: '16px',
+    backgroundColor: theme.palette.info.main,
   },
 }));
 
-export default useStyles;
+export { useStyles, theme };

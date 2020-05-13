@@ -17,13 +17,15 @@ import DonutSmallIcon from '@material-ui/icons/DonutSmall';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/Home';
+import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 
-import useStyles from './NavbarStyle';
+import { useStyles, theme } from './NavbarStyle';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import { setSearchText } from '../../actions/search';
 import { setActiveFilter } from '../../actions/search';
 
-const Navbar = ({ history, setSearchText, setActiveFilter }) => {
+const Navbar = ({ history, setSearchText, setActiveFilter, auth }) => {
   const classes = useStyles();
   const [searchText, setSearchTxt] = useState('');
 
@@ -43,101 +45,132 @@ const Navbar = ({ history, setSearchText, setActiveFilter }) => {
     setActiveFilter(+e.currentTarget.id);
   };
   return (
-    <div className={classes.grow}>
-      <AppBar position='static'>
-        <Toolbar>
-          <IconButton
-            edge='start'
-            className={classes.menuButton}
-            color='inherit'
-            aria-label='open drawer'
-          >
-            <DonutSmallIcon fontSize='large' color='secondary' />
-          </IconButton>
-          <Typography className={classes.title} variant='h6' noWrap>
-            MERN-Blogging
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+    <ThemeProvider theme={theme}>
+      <div className={classes.grow}>
+        <AppBar position='static' className={classes.dark}>
+          <Toolbar>
+            <IconButton
+              edge='start'
+              className={classes.menuButton}
+              color='inherit'
+              aria-label='open drawer'
+            >
+              <DonutSmallIcon fontSize='large' className={classes.iconColor} />
+            </IconButton>
+            <Typography className={classes.title} variant='h6' noWrap>
+              MERN-Blogging
+            </Typography>
+            {localStorage.getItem('token') && (
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <Tooltip title='Type then press enter'>
+                  <InputBase
+                    placeholder='Search…'
+                    name='searchText'
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput,
+                    }}
+                    value={searchText}
+                    onChange={handleChange}
+                    onKeyPress={handleKeyEnter}
+                    inputProps={{ 'aria-label': 'search' }}
+                  />
+                </Tooltip>
+              </div>
+            )}
+            {localStorage.getItem('token') && (
+              <Tabs
+                value={value}
+                onChange={handleFiltersClick}
+                variant='fullWidth'
+                indicatorColor='primary'
+                className={classes.txtColor}
+                aria-label='icon label tabs example'
+              >
+                <Tooltip title='Choose filter to be user'>
+                  <Tab
+                    icon={<AccountCircle className={classes.iconColor} />}
+                    label='Users'
+                    id={1}
+                  />
+                </Tooltip>
+                <Tooltip title='Choose filter to be title of blog'>
+                  <Tab
+                    icon={<DescriptionIcon className={classes.iconColor} />}
+                    label='Blogs Title'
+                    id={2}
+                  />
+                </Tooltip>
+                <Tooltip title='Choose filter to be tags'>
+                  <Tab
+                    icon={<CodeIcon className={classes.iconColor} />}
+                    label='Blogs Tags'
+                    id={3}
+                  />
+                </Tooltip>
+              </Tabs>
+            )}
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              <Link to={'/home'} className={classes.resetLink}>
+                <IconButton
+                  edge='end'
+                  aria-label='home'
+                  aria-haspopup='true'
+                  color='inherit'
+                >
+                  <HomeIcon fontSize='large' className={classes.iconColor} />
+                </IconButton>
+              </Link>
+              {auth.token && (
+                <Link to={`/profile/${auth._id}`} className={classes.resetLink}>
+                  <Tooltip title={`Your profile ${auth.firstName}`}>
+                    <IconButton
+                      aria-label='account of current user'
+                      aria-haspopup='true'
+                      color='inherit'
+                    >
+                      <AccountCircle
+                        fontSize='large'
+                        className={classes.iconColor}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </Link>
+              )}
+              {auth.token && (
+                <Link to={'/followers-blogs'} className={classes.resetLink}>
+                  <Tooltip title='What Followers Say!'>
+                    <IconButton
+                      aria-label='What followers say'
+                      aria-haspopup='true'
+                      color='inherit'
+                    >
+                      <RecordVoiceOverIcon
+                        fontSize='large'
+                        className={classes.iconColor}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </Link>
+              )}
             </div>
-            <Tooltip title='Type then press enter'>
-              <InputBase
-                placeholder='Search…'
-                name='searchText'
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                value={searchText}
-                onChange={handleChange}
-                onKeyPress={handleKeyEnter}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Tooltip>
-          </div>
-          <Tabs
-            value={value}
-            onChange={handleFiltersClick}
-            variant='fullWidth'
-            indicatorColor='secondary'
-            className={classes.txtColor}
-            aria-label='icon label tabs example'
-          >
-            <Tooltip title='Choose filter to be user'>
-              <Tab
-                icon={<AccountCircle color='secondary' />}
-                label='Users'
-                id={1}
-              />
-            </Tooltip>
-            <Tooltip title='Choose filter to be title of blog'>
-              <Tab
-                icon={<DescriptionIcon color='secondary' />}
-                label='Blogs Title'
-                id={2}
-              />
-            </Tooltip>
-            <Tooltip title='Choose filter to be tags'>
-              <Tab
-                icon={<CodeIcon color='secondary' />}
-                label='Blogs Tags'
-                id={3}
-              />
-            </Tooltip>
-          </Tabs>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <Link to={'/home'} className={classes.resetLink}>
-              <IconButton
-                edge='end'
-                aria-label='home'
-                aria-haspopup='true'
-                color='inherit'
-              >
-                <Typography variant='h6'>Home</Typography>
-                <HomeIcon fontSize='large' color='secondary' />
-              </IconButton>
-            </Link>
-            <Link to={'/profile/:id'} className={classes.resetLink}>
-              <IconButton
-                aria-label='account of current user'
-                aria-haspopup='true'
-                color='inherit'
-              >
-                <Typography variant='h6'>Anonymous</Typography>
-                <AccountCircle fontSize='large' color='secondary' />
-              </IconButton>
-            </Link>
-          </div>
-        </Toolbar>
-      </AppBar>
-    </div>
+          </Toolbar>
+        </AppBar>
+      </div>
+    </ThemeProvider>
   );
 };
+
+const mapSatateToProps = (state) => ({
+  auth: state.auth,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   setSearchText: (searchText) => dispatch(setSearchText(searchText)),
   setActiveFilter: (activeFilter) => dispatch(setActiveFilter(activeFilter)),
 });
-export default connect(null, mapDispatchToProps)(Navbar);
+export default connect(mapSatateToProps, mapDispatchToProps)(Navbar);

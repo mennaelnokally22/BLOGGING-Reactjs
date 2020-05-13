@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,6 +15,31 @@ import { string, object } from 'yup';
 import { toast } from 'react-toastify';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
+import { signIn } from '../actions/auth';
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiButton: {
+      root: {
+        fontWeight: 'bold',
+        margin: '10px',
+        '&:hover': {
+          backgroundColor: 'green',
+        },
+      },
+      containedPrimary: {
+        backgroundColor: '#3498db',
+      },
+    },
+    MuiFormLabel: {
+      root: {
+        color: 'darkgray',
+      },
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,12 +60,19 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   link: {
-    color: theme.palette.primary.main,
+    color: theme.palette.info.main,
     textDecoration: 'none',
 
     '&:hover': {
       textDecoration: 'underline',
     },
+  },
+  main: {
+    paddingTop: '100px',
+    paddingBottom: '100px',
+  },
+  heading: {
+    color: 'darkgray',
   },
 }));
 
@@ -53,8 +86,8 @@ const schema = object().shape({
     .required('Password is required!'),
 });
 
-const SignIn = ({ history }) => {
-  const classes = useStyles();
+const SignIn = ({ history, signIn }) => {
+  const classesNames = useStyles();
 
   const { register, handleSubmit, errors, formState } = useForm({
     validationSchema: schema,
@@ -63,72 +96,89 @@ const SignIn = ({ history }) => {
 
   const onSubmit = async (data) => {
     // Sign in action
-    toast.success(`Welcome`);
-    history.replace('/');
+    signIn({ ...data })
+      .then((data) => {
+        console.log(data);
+        toast.success(`Welcome`);
+        history.replace('/home');
+      })
+      .catch((err) => {
+        toast.error(`Invalid email or password`);
+        console.log(err);
+      });
   };
-
   return (
-    <Container component='main' maxWidth='xs'>
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOpenIcon />
-        </Avatar>
-        <Typography component='h1' variant='h5'>
-          Sign in
-        </Typography>
-        <form
-          className={classes.form}
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                variant='standard'
-                fullWidth
-                id='email'
-                label='Email Address'
-                name='email'
-                error={!!errors.email}
-                helperText={errors.email?.message}
-                inputRef={register}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant='standard'
-                fullWidth
-                name='password'
-                label='Password'
-                type='password'
-                id='password'
-                error={!!errors.password}
-                helperText={errors.password?.message}
-                inputRef={register}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            color='primary'
-            className={classes.submit}
-            disabled={formState.isSubmitting}
+    <ThemeProvider theme={theme}>
+      <Container component='main' maxWidth='xs' className={classesNames.main}>
+        <div className={classesNames.paper}>
+          <Avatar className={classesNames.avatar}>
+            <LockOpenIcon />
+          </Avatar>
+          <Typography
+            component='h1'
+            variant='h4'
+            className={classesNames.heading}
           >
-            Sign Up
-          </Button>
-          <Grid container justify='flex-end'>
-            <Grid item>
-              <Link to='/' className={classes.link}>
-                Don't have an account? Sign up
-              </Link>
+            Sign in
+          </Typography>
+          <form
+            className={classesNames.form}
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  variant='standard'
+                  fullWidth
+                  id='email'
+                  label='Email Address'
+                  name='email'
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                  inputRef={register}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant='standard'
+                  fullWidth
+                  name='password'
+                  label='Password'
+                  type='password'
+                  id='password'
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
+                  inputRef={register}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='primary'
+              className={classesNames.submit}
+              disabled={formState.isSubmitting}
+            >
+              Sign In
+            </Button>
+            <Grid container justify='flex-end'>
+              <Grid item>
+                <Link to='/' className={classesNames.link}>
+                  Don't have an account? Sign up
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </Container>
+    </ThemeProvider>
   );
 };
 
-export default SignIn;
+const mapDispatchToProps = (dispatch) => ({
+  signIn: (data) => dispatch(signIn(data)),
+});
+
+export default connect(null, mapDispatchToProps)(SignIn);

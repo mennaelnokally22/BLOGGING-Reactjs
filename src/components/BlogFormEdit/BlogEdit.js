@@ -12,7 +12,7 @@ import Box from '@material-ui/core/Box';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import { editBlog } from '../../actions/blog';
+import { onEditBlog } from '../../actions/blog';
 
 const BlogSchema = object().shape({
   title: string().required('Blog title is required!'),
@@ -21,16 +21,15 @@ const BlogSchema = object().shape({
     .required('Body is required!'),
 });
 
-const BlogEdit = ({ isOpen, editingBlog, onClose, editBlog }) => {
+const BlogEdit = ({ isOpen, editingBlog, onClose, onEditBlog }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(isOpen);
-
   const { handleSubmit, register, errors } = useForm({
     validationSchema: BlogSchema,
     mode: 'onBlur',
   });
   const onSubmit = (data) => {
-    editBlog(editingBlog.id, { ...data });
+    onEditBlog(editingBlog.id, { ...data, tags: data.tags.split(' ') });
     toast.success(`Blog ${data.title} Updated successfully!`);
     handleClose();
   };
@@ -74,9 +73,20 @@ const BlogEdit = ({ isOpen, editingBlog, onClose, editBlog }) => {
               helperText={errors.body?.message}
               inputRef={register}
             />
+            <TextField
+              id='tags'
+              name='tags'
+              label='Blog Tags'
+              type='text'
+              defaultValue={editingBlog.tags.join(' ')}
+              fullWidth
+              margin='normal'
+              inputRef={register}
+            />
             <Button
               type='submit'
               color='secondary'
+              variant='contained'
               className={classes.submitBtn}
             >
               Save
@@ -89,7 +99,7 @@ const BlogEdit = ({ isOpen, editingBlog, onClose, editBlog }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  editBlog: (blogId, updates) => dispatch(editBlog(blogId, updates)),
+  onEditBlog: (blogId, updates) => dispatch(onEditBlog(blogId, updates)),
 });
 
 export default connect(null, mapDispatchToProps)(BlogEdit);

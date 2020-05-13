@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
+    backgroundColor: '#212121',
+    color: 'rgba(255, 255, 255, 0.7)',
   },
   textField: {
     marginLeft: theme.spacing(1),

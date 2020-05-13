@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -7,20 +8,32 @@ import SignIn from './pages/SignIn';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import SearchResult from './pages/SearchResult';
+import FollowersBlogs from './pages/FollowersBlogs';
 
-function App() {
+import { setAuth } from './actions/auth';
+import BlogDetails from './pages/BlogDetails';
+
+function App({ dispatch }) {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user);
+    dispatch(setAuth({ token, ...user }));
+  }
   return (
-    <Fragment>
+    <div style={{ backgroundColor: '#212121', paddingBottom: '100px' }}>
       <Switch>
         <Route path='/sign-in' exact component={SignIn} />
         <Route path='/home' exact component={Home} />
         <Route path='/profile/:id' exact component={Profile} />
         <Route path='/results' exact component={SearchResult} />
+        <Route path='/followers-blogs' exact component={FollowersBlogs} />
+        <Route path='/blog/:id' exact component={BlogDetails} />
         <Route path='/' exact component={SignUp} />
       </Switch>
       <ToastContainer />
-    </Fragment>
+    </div>
   );
 }
 
-export default App;
+export default connect()(App);
