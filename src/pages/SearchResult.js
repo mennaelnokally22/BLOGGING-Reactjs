@@ -150,43 +150,53 @@ const SearchResult = ({ searchData, auth, history }) => {
       <Typography variant='h4' className={classes.mb}>
         Your search results
       </Typography>
-      {filteredBlogss.length === 0 && (
+      {filteredBlogss.length === 0 && filteredUsers.length === 0 && (
         <Container className={classes.root}>
           <CircularProgress color='secondary' />
         </Container>
       )}
-      {filteredBlogss.map((blog) => (
-        <BlogCard
-          key={blog._id}
-          id={blog._id}
-          title={blog.title}
-          body={blog.body}
-          author={blog.authorId.firstName}
-          authorId={blog.authorId._id}
-          createdAt={blog.createdAt}
-          tags={blog.tags}
-        />
-      ))}
-      {filteredUsers.map((user) => (
-        <Paper key={user._id} className={classes.card}>
-          <Grid container alignItems='center' spacing={2}>
-            <Grid item>
-              <Avatar
-                title={user.firstName}
-                variant='rounded'
-                className={classes.avatar}
-              >
-                {user.firstName.charAt(0)}
-              </Avatar>
-            </Grid>
-            <Grid item>
-              <Link to={`/profile/${user._id}`} className={classes.link}>
-                <Typography variant='h4'>{`${user.firstName} ${user.lastName}`}</Typography>
-              </Link>
-            </Grid>
-          </Grid>
-        </Paper>
-      ))}
+      {filteredBlogss.length > 0 && (
+        <Container>
+          {filteredBlogss.map((blog) => (
+            <BlogCard
+              key={blog._id}
+              id={blog._id}
+              title={blog.title}
+              body={blog.body}
+              author={blog.authorId.firstName}
+              authorLast={blog.authorId.lastName}
+              authorId={blog.authorId._id}
+              createdAt={blog.createdAt}
+              tags={blog.tags}
+            />
+          ))}
+        </Container>
+      )}
+
+      {filteredUsers.length > 0 && (
+        <Container>
+          {filteredUsers.map((user) => (
+            <Paper key={user._id} className={classes.card}>
+              <Grid container alignItems='center' spacing={2}>
+                <Grid item>
+                  <Avatar
+                    title={user.firstName}
+                    variant='rounded'
+                    className={classes.avatar}
+                  >
+                    {user.firstName.charAt(0)}
+                  </Avatar>
+                </Grid>
+                <Grid item>
+                  <Link to={`/profile/${user._id}`} className={classes.link}>
+                    <Typography variant='h4'>{`${user.firstName} ${user.lastName}`}</Typography>
+                  </Link>
+                </Grid>
+              </Grid>
+            </Paper>
+          ))}
+        </Container>
+      )}
       <Fab color='secondary'>
         <Link to={'/home'} className={classes.linkIcon}>
           <ArrowBackIcon />
