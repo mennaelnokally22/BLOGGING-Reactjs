@@ -25,6 +25,7 @@ import BlogEdit from '../BlogFormEdit/BlogEdit';
 
 import { onDeleteBlog } from '../../actions/blog';
 import { onToggleFollowing } from '../../actions/auth';
+import { Box } from '@material-ui/core';
 
 const BlogCard = ({
   id,
@@ -48,154 +49,135 @@ const BlogCard = ({
     setOpen(false);
   };
 
-  // const [switchState, setSwitchState] = React.useState(
-  //   auth?.followingUsers?.includes(authorId) ? true : false
-  // );
-
-  // const handleChange = (event) => {
-  //   console.log(event.target.name, event.target.checked);
-  //   console.log(authorId);
-  //   setSwitchState(event.target.checked);
-  //   onToggleFollowing(authorId, auth._id);
-  //   if (event.target.checked) {
-  //     toast.success('You are now following this user');
-  //   } else {
-  //     toast.warn('You are now unfollowed this user !');
-  //   }
-  // };
   {
     console.log('authorID Profile', authorId);
+    console.log('photo', photo);
   }
   return (
     <Container>
-      <ButtonBase component='a' className={classes.cardContainer}>
-        <Paper className={classes.card} elevation={2}>
-          <Grid
-            container
-            alignItems='center'
-            spacing={2}
-            className={classes.mb}
-          >
-            {author != undefined && (
-              <Grid item>
-                <Avatar
-                  title={author}
-                  variant='rounded'
-                  className={classes.avatar}
-                >
-                  {`${author.charAt(0)}${authorLast.charAt(0)}`}
-                </Avatar>
-              </Grid>
-            )}
+      <Paper
+        className={`${classes.card} ${classes.cardContainer}`}
+        elevation={2}
+      >
+        <Grid container alignItems='center' spacing={2} className={classes.mb}>
+          {author != undefined && (
             <Grid item>
-              {auth.token === null && (
-                <Typography variant='h4'>{author}</Typography>
-              )}
-              {auth.token && (
-                <Typography variant='h4'>
-                  <Link to={`/profile/${authorId}`} className={classes.link}>
-                    {`${author} ${authorLast}`}
-                  </Link>
-                </Typography>
-              )}
-            </Grid>
-            {/* {auth.token && auth._id !== authorId && (
-              <Grid item>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={switchState}
-                      onChange={handleChange}
-                      name='followCheck'
-                    />
-                  }
-                  label={switchState ? 'Following' : 'Follow'}
-                />
-              </Grid>
-            )} */}
-            {auth.token &&
-              auth._id !== authorId &&
-              auth.followingUsers.includes(authorId) && (
-                <Grid item>
-                  <Badge color='secondary' badgeContent={'F'}>
-                    <CheckCircleIcon className={classes.iconColor} />
-                  </Badge>
-                </Grid>
-              )}
-          </Grid>
-          <Typography variant='h4' className={classes.txtColor}>
-            <Link to={`/blog/${id}`} className={classes.link}>
-              {title}
-            </Link>
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={`${classes.mt} ${classes.txtColor}`}
-          >
-            {`${body.substr(0, 250)} ${body.length > 250 ? '....' : ''}`}
-          </Typography>
-          <div
-            style={{
-              backgroundImage: `url('logo192.png')`,
-              width: '196px',
-              height: '179px',
-            }}
-          ></div>
-          <Grid
-            container
-            alignItems='center'
-            justify='flex-start'
-            spacing={2}
-            className={classes.mt}
-          >
-            {tags.map((tag) => (
-              <Grid item key={tag}>
-                <Typography className={classes.tags} variant='subtitle1'>
-                  {tag}
-                </Typography>
-              </Grid>
-            ))}
-          </Grid>
-          <Grid
-            container
-            justify='space-between'
-            alignItems='center'
-            className={classes.createdAt}
-          >
-            <div className={classes.timeContainer}>
-              <EventAvailableIcon
-                style={{ marginRight: '3px' }}
-                className={classes.iconColor}
-              />
-              <time
-                dateTime={moment(createdAt).format()}
-                className={classes.txtColor}
+              <Avatar
+                title={author}
+                variant='rounded'
+                className={classes.avatar}
               >
-                {moment(createdAt).format('D MMMM YYYY')}
-              </time>
-            </div>
-            {auth.token && auth._id === authorId && (
+                {`${author.charAt(0)}${authorLast.charAt(0)}`}
+              </Avatar>
+            </Grid>
+          )}
+          {auth.token === null && (
+            <Grid item component={'h4'}>
+              {author}
+            </Grid>
+          )}
+          {auth.token && (
+            <Grid
+              item
+              component={Link}
+              to={`/profile/${authorId}`}
+              className={classes.link}
+            >
+              {`${author} ${authorLast}`}
+            </Grid>
+          )}
+
+          {auth.token &&
+            auth._id !== authorId &&
+            auth.followingUsers.includes(authorId) && (
               <Grid item>
-                <Button
-                  onClick={() => {
-                    onDeleteBlog(id);
-                    toast.success(`Blog ${title} deleted successfully!`);
-                  }}
-                >
-                  <DeleteIcon className={classes.iconColor} />
-                </Button>
-                <Button
-                  onClick={() => {
-                    setOpen(true);
-                  }}
-                >
-                  <BorderColorIcon className={classes.iconColor} />
-                </Button>
+                <Badge color='secondary' badgeContent={'F'}>
+                  <CheckCircleIcon className={classes.iconColor} />
+                </Badge>
               </Grid>
             )}
+        </Grid>
+
+        <Typography variant='h4' className={classes.txtColor}>
+          <Link to={`/blog/${id}`} className={classes.link}>
+            {title}
+          </Link>
+        </Typography>
+
+        <Typography
+          variant='subtitle1'
+          className={`${classes.mt} ${classes.txtColor}`}
+        >
+          {`${body.substr(0, 250)} ${body.length > 250 ? '....' : ''}`}
+        </Typography>
+
+        {photo != undefined && (
+          <Grid container alignItems='center' justify='flex-start'>
+            <Grid item sm={6}>
+              <Box
+                className={classes.img}
+                component='img'
+                display='block'
+                boxShadow={2}
+                src={`http://localhost:3000/${photo}`}
+              />
+            </Grid>
           </Grid>
-        </Paper>
-      </ButtonBase>
+        )}
+        <Grid
+          container
+          alignItems='center'
+          justify='flex-start'
+          spacing={2}
+          className={classes.mt}
+        >
+          {tags.map((tag) => (
+            <Grid item key={tag}>
+              <Typography className={classes.tags} variant='subtitle1'>
+                {tag}
+              </Typography>
+            </Grid>
+          ))}
+        </Grid>
+        <Grid
+          container
+          justify='space-between'
+          alignItems='center'
+          className={classes.createdAt}
+        >
+          <div className={classes.timeContainer}>
+            <EventAvailableIcon
+              style={{ marginRight: '3px' }}
+              className={classes.iconColor}
+            />
+            <time
+              dateTime={moment(createdAt).format()}
+              className={classes.txtColor}
+            >
+              {moment(createdAt).format('D MMMM YYYY')}
+            </time>
+          </div>
+          {auth.token && auth._id === authorId && (
+            <Grid item>
+              <Button
+                onClick={() => {
+                  onDeleteBlog(id);
+                  toast.success(`Blog ${title} deleted successfully!`);
+                }}
+              >
+                <DeleteIcon className={classes.iconColor} />
+              </Button>
+              <Button
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                <BorderColorIcon className={classes.iconColor} />
+              </Button>
+            </Grid>
+          )}
+        </Grid>
+      </Paper>
       {open && (
         <BlogEdit
           editingBlog={{ id, title, body, tags }}

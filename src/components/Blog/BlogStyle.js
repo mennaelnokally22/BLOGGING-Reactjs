@@ -50,9 +50,9 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   link: {
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: 'white',
     textDecoration: 'none',
-
+    fontSize: '38px',
     '&:hover': {
       textDecoration: 'underline',
     },
@@ -62,6 +62,11 @@ const useStyles = makeStyles((theme) => ({
   },
   iconColor: {
     color: theme.palette.info.main,
+  },
+  img: {
+    width: '100%',
+    border: '1px solid transparent',
+    borderRadius: '20px',
   },
 }));
 

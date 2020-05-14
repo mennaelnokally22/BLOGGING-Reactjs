@@ -49,6 +49,7 @@ const Home = ({ blogs, auth, history, fetchBlogs, fetchBlogsPages }) => {
   useEffect(() => {
     (async () => {
       //await fetchBlogs();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       const data = await fetchBlogsPages(1);
       setPagesCount(data.pagesCount);
       console.log(data);
@@ -62,8 +63,8 @@ const Home = ({ blogs, auth, history, fetchBlogs, fetchBlogsPages }) => {
 
   const handleChange = async (event, value) => {
     setPage(value);
-    window.scrollTo(0, 0);
     const data = await fetchBlogsPages(value);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   return (
     <ThemeProvider theme={theme}>
@@ -83,6 +84,7 @@ const Home = ({ blogs, auth, history, fetchBlogs, fetchBlogsPages }) => {
             id={blog._id}
             title={blog.title}
             body={blog.body}
+            photo={blog.photo}
             author={blog.authorId.firstName}
             authorLast={blog.authorId.lastName}
             authorId={blog.authorId._id}

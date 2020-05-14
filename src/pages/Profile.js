@@ -179,6 +179,7 @@ const Profile = ({
             id={blog._id}
             title={blog.title}
             body={blog.body}
+            photo={blog.photo}
             author={userData.user.firstName}
             authorLast={userData.user.lastName}
             authorId={blog.authorId}

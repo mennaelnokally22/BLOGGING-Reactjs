@@ -40,8 +40,17 @@ const fetchBlogsPages = (pageNum) => {
 
 const onAddBlog = (blog) => {
   return async (dispatch) => {
-    const { data } = await axios.post('http://localhost:3000/blog', blog, {
-      headers: { Authorization: `${localStorage.getItem('token')}` },
+    console.log(blog);
+    const formData = new FormData();
+    formData.append('title', blog.title);
+    formData.append('body', blog.body);
+    formData.append('tags', JSON.stringify(blog.tags));
+    formData.append('photo', blog.photo);
+    const { data } = await axios.post('http://localhost:3000/blog', formData, {
+      headers: {
+        Authorization: `${localStorage.getItem('token')}`,
+        'content-type': 'multipart/form-data',
+      },
     });
     dispatch(addBlog(data.blog));
   };

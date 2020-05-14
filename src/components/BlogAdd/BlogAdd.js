@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -18,6 +18,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
 
 import { onAddBlog } from '../../actions/blog';
+import { Box } from '@material-ui/core';
 
 const BlogSchema = object().shape({
   title: string().required('Blog title is required!'),
@@ -34,12 +35,24 @@ const BlogAdd = ({ onAddBlog }) => {
     mode: 'onBlur',
   });
 
+  const [imgFile, setImgFile] = useState(null);
+
+  const handleFileChange = (files) => {
+    const file = files[0];
+    console.log(file);
+    const fReader = new FileReader();
+    if (file) fReader.readAsDataURL(file);
+    fReader.onloadend = () => {
+      setImgFile(file);
+      console.log(file);
+      console.log(fReader.result);
+    };
+  };
   const onSubmit = (data, e) => {
-    console.log(data);
-    console.log(e);
     onAddBlog({
       ...data,
       tags: data.tags.split(' '),
+      photo: imgFile,
     });
     e.target.title.value = '';
     e.target.body.value = '';
@@ -90,14 +103,17 @@ const BlogAdd = ({ onAddBlog }) => {
                 margin='normal'
                 inputRef={register}
               />
-              <DropzoneArea
-                acceptedFiles={['image/*']}
-                filesLimit={1}
-                dropzoneText={`Drag & Drop image here or click`}
-                maxFileSize={(1000 * 1000) / 2}
-                showPreviewsInDropzone={false}
-                dropzoneClass={classes.dropZone}
-              />
+              <Box>
+                <DropzoneArea
+                  onChange={handleFileChange}
+                  acceptedFiles={['image/*']}
+                  filesLimit={1}
+                  dropzoneText={`Drag & Drop image here or click`}
+                  maxFileSize={(1000 * 1000) / 2}
+                  showPreviewsInDropzone={true}
+                  dropzoneClass={classes.dropZone}
+                />
+              </Box>
               <Button
                 type='submit'
                 variant='contained'

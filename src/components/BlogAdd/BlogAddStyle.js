@@ -6,6 +6,19 @@ const theme = createMuiTheme({
         color: 'darkgray',
       },
     },
+    MuiInputBase: {
+      input: {
+        color: 'darkgray',
+      },
+      multiline: {
+        color: 'darkgray',
+      },
+    },
+    DropzoneArea: {
+      dropZone: {
+        backgroundColor: 'transparent',
+      },
+    },
   },
 });
 
@@ -75,7 +88,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.info.main,
   },
   dropZone: {
-    backgroundColor: '#444040',
+    minHeight: 'auto',
+    backgroundColor: 'transparent',
   },
 }));
 

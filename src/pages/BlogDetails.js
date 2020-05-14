@@ -45,11 +45,18 @@ const useStyles = makeStyles((theme) => ({
   mt: {
     marginTop: theme.spacing(2),
   },
+  img: {
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    marginBottom: theme.spacing(5),
+    height: '40vw',
+  },
 }));
 
 const BlogDetails = ({ blog, auth, history }) => {
   {
     console.log(blog);
+    console.log(blog.photo);
   }
   const classes = useStyles();
   return (
@@ -93,7 +100,14 @@ const BlogDetails = ({ blog, auth, history }) => {
           </time>
         </div>
       </Container>
-      <Box component='img' src={logo} />
+      {blog.photo != undefined && (
+        <Box
+          className={classes.img}
+          style={{
+            backgroundImage: `url("http://localhost:3000/${blog.photo}")`,
+          }}
+        ></Box>
+      )}
       <Container>
         <Typography paragraph varient='subtitle2' className={classes.content}>
           {blog?.body}

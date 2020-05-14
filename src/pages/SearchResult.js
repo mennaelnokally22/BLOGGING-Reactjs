@@ -163,6 +163,7 @@ const SearchResult = ({ searchData, auth, history }) => {
               id={blog._id}
               title={blog.title}
               body={blog.body}
+              photo={blog.photo}
               author={blog.authorId.firstName}
               authorLast={blog.authorId.lastName}
               authorId={blog.authorId._id}

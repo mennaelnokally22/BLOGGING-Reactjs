@@ -71,6 +71,7 @@ const FollowersBlogs = ({ auth, history, setBlogs }) => {
           id={blog._id}
           title={blog.title}
           body={blog.body}
+          photo={blog.photo}
           author={blog.authorId.firstName}
           authorLast={blog.authorId.lastName}
           authorId={blog.authorId._id}
