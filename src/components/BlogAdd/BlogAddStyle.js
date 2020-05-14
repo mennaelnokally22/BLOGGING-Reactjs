@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   card: {
-    backgroundColor: '#383535a6',
+    //backgroundColor: '#383535a6',
+    backgroundColor: 'transparent',
     borderLeft: `4px solid ${theme.palette.info.main}`,
     padding: theme.spacing(4),
   },

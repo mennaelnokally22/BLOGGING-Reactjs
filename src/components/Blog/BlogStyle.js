@@ -10,9 +10,11 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       transform: 'translateY(-4px)',
     },
+    borderRadius: '20px',
   },
   card: {
-    backgroundColor: '#383535a6',
+    //backgroundColor: '#383535a6',
+    backgroundColor: 'transparent',
     borderLeft: `4px solid ${theme.palette.info.main}`,
     padding: theme.spacing(4),
   },
