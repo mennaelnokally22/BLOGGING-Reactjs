@@ -43,7 +43,9 @@ const useStyles = makeStyles((theme) => ({
     border: `2px solid ${theme.palette.info.main}`,
     borderRadius: '22px',
     color: theme.palette.info.main,
-    padding: '2px',
+    paddingLeft: '15px',
+    paddingRight: '15px',
+    textAlign: 'center',
   },
   timeContainer: {
     display: 'flex',

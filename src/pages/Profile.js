@@ -21,7 +21,6 @@ import { onToggleFollowing } from '../actions/auth';
 import UserCard from '../components/UserCard/UserCard';
 import Navbar from '../components/Navbar/Navbar';
 import BlogCard from '../components/Blog/Blog';
-import UserEdit from '../components/UserEditForm/UserEdit';
 
 const Profile = ({
   match,

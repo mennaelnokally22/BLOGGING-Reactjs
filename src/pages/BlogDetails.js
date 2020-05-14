@@ -9,7 +9,6 @@ import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import Navbar from '../components/Navbar/Navbar';
 import moment from 'moment';
 
-import logo from '../assets/logo-og.png';
 const useStyles = makeStyles((theme) => ({
   heading: {
     color: 'white',
