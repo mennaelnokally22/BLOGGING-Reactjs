@@ -69,8 +69,8 @@ const BlogCard = ({
             </Grid>
           )}
           {auth.token === null && (
-            <Grid item component={'h4'}>
-              {author}
+            <Grid item component={'h4'} className={classes.authorName}>
+              {`${author} ${authorLast}`}
             </Grid>
           )}
           {auth.token && (

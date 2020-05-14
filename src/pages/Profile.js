@@ -108,6 +108,9 @@ const Profile = ({
       color: 'darkgray',
       fontSize: '40px',
     },
+    main: {
+      paddingBottom: '100px',
+    },
   }));
 
   const classes = useStyles();
@@ -115,9 +118,9 @@ const Profile = ({
   return (
     <Fragment>
       <Navbar history={history} />
-      <Container>
+      <Container className={classes.main}>
         <Typography variant='h3' gutterBottom className={classes.txtColor}>
-          User Info
+          User Info &#129299;
         </Typography>
         <Grid
           container
@@ -184,7 +187,7 @@ const Profile = ({
         ))}
         {userData.blogs.length === 0 && isLoading === false && (
           <Typography varient='h3' className={classes.txt}>
-            You have no blogs yet!
+            You have no blogs yet! &#128554;
           </Typography>
         )}
       </Container>

@@ -61,6 +61,11 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'underline',
     },
   },
+  authorName: {
+    color: 'white',
+    fontSize: '38px',
+    fontWeight: '500',
+  },
   txtColor: {
     color: 'rgba(255, 255, 255, 0.7)',
   },

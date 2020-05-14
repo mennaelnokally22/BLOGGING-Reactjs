@@ -18,6 +18,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/Home';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { useStyles, theme } from './NavbarStyle';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -39,11 +40,14 @@ const Navbar = ({ history, setSearchText, setActiveFilter, auth }) => {
       history.replace('/results');
     }
   };
+
   const [value, setValue] = React.useState(0);
+
   const handleFiltersClick = (e, newValue) => {
     setValue(newValue);
     setActiveFilter(+e.currentTarget.id);
   };
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.grow}>
@@ -157,6 +161,20 @@ const Navbar = ({ history, setSearchText, setActiveFilter, auth }) => {
                   </Tooltip>
                 </Link>
               )}
+              <Link to={'/sign-in'} className={classes.resetLink}>
+                <Tooltip title='Sign In'>
+                  <IconButton
+                    aria-label='Sign In'
+                    aria-haspopup='true'
+                    color='inherit'
+                  >
+                    <ExitToAppIcon
+                      fontSize='large'
+                      className={classes.iconColor}
+                    />
+                  </IconButton>
+                </Tooltip>
+              </Link>
             </div>
           </Toolbar>
         </AppBar>

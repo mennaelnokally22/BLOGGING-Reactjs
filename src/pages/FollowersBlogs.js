@@ -136,7 +136,7 @@ const FollowersBlogs = ({ auth, history, setBlogs }) => {
           )}
           {userData.length === 0 && isLoading === false && (
             <Typography varient='h3' className={classes.txt}>
-              You have no followers yet!
+              You have no followers yet! &#128580;
             </Typography>
           )}
         </Container>

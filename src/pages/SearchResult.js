@@ -68,12 +68,16 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(4),
   },
   main: {
-    paddingBottom: '300px',
+    paddingBottom: '410px',
   },
   txt: {
     textAlign: 'center',
     color: 'darkgray',
     fontSize: '40px',
+  },
+  btn: {
+    position: 'absolute',
+    bottom: '0',
   },
 }));
 
@@ -161,7 +165,7 @@ const SearchResult = ({ searchData, auth, history }) => {
   return (
     <Container className={classes.main}>
       <Typography variant='h4' className={classes.mb}>
-        Your search results
+        Your search results &#129488;
       </Typography>
       {filteredBlogss.length === 0 && filteredUsers.length === 0 && isLoading && (
         <Container className={classes.root}>
@@ -215,10 +219,10 @@ const SearchResult = ({ searchData, auth, history }) => {
         filteredBlogss.length === 0 &&
         isLoading === false && (
           <Typography variant='h4' className={classes.txt}>
-            No results matched!
+            No results matched! &#128560;
           </Typography>
         )}
-      <Fab color='secondary'>
+      <Fab color='secondary' className={classes.btn}>
         <Link to={'/home'} className={classes.linkIcon}>
           <ArrowBackIcon />
         </Link>
