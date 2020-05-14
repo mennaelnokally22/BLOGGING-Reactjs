@@ -111,7 +111,7 @@ const BlogCard = ({
           {`${body.substr(0, 250)} ${body.length > 250 ? '....' : ''}`}
         </Typography>
 
-        {photo != undefined && (
+        {photo != 'null' && photo != undefined && (
           <Grid container alignItems='center' justify='flex-start'>
             <Grid item sm={6}>
               <Box

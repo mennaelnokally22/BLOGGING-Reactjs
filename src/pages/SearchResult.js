@@ -68,11 +68,20 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
     marginTop: theme.spacing(4),
   },
+  main: {
+    paddingBottom: '300px',
+  },
+  txt: {
+    textAlign: 'center',
+    color: 'darkgray',
+    fontSize: '40px',
+  },
 }));
 
 const SearchResult = ({ searchData, auth, history }) => {
   const [filteredBlogss, setFilteredBlogs] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     console.log(auth.token);
@@ -86,6 +95,7 @@ const SearchResult = ({ searchData, auth, history }) => {
           .then((response) => {
             console.log(response.data);
             setFilteredBlogs(response.data);
+            response.data.length !== 0 ? setLoading(true) : setLoading(false);
           })
           .catch((err) => {
             console.log(err.response.data);
@@ -109,6 +119,7 @@ const SearchResult = ({ searchData, auth, history }) => {
           .then((response) => {
             console.log(response.data);
             setFilteredBlogs(response.data);
+            response.data.length !== 0 ? setLoading(true) : setLoading(false);
           })
           .catch((err) => {
             console.log(err.response.data);
@@ -130,6 +141,9 @@ const SearchResult = ({ searchData, auth, history }) => {
           .then((response) => {
             console.log(response.data);
             setFilteredUsers(response.data.users);
+            response.data.users.length !== 0
+              ? setLoading(true)
+              : setLoading(false);
           })
           .catch((err) => {
             console.log(err.response.data);
@@ -146,11 +160,11 @@ const SearchResult = ({ searchData, auth, history }) => {
 
   const classes = useStyles();
   return (
-    <Container>
+    <Container className={classes.main}>
       <Typography variant='h4' className={classes.mb}>
         Your search results
       </Typography>
-      {filteredBlogss.length === 0 && filteredUsers.length === 0 && (
+      {filteredBlogss.length === 0 && filteredUsers.length === 0 && isLoading && (
         <Container className={classes.root}>
           <CircularProgress color='secondary' />
         </Container>
@@ -198,6 +212,13 @@ const SearchResult = ({ searchData, auth, history }) => {
           ))}
         </Container>
       )}
+      {filteredUsers.length === 0 &&
+        filteredBlogss.length === 0 &&
+        isLoading === false && (
+          <Typography variant='h4' className={classes.txt}>
+            No results matched!
+          </Typography>
+        )}
       <Fab color='secondary'>
         <Link to={'/home'} className={classes.linkIcon}>
           <ArrowBackIcon />

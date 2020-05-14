@@ -6,14 +6,13 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Fab from '@material-ui/core/Fab';
 import Divider from '@material-ui/core/Divider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import { Badge } from '@material-ui/core';
 
 import PersonIcon from '@material-ui/icons/Person';
-import EditIcon from '@material-ui/icons/Edit';
 
 import axios from 'axios';
 import { setBlogs } from '../actions/blog';
@@ -23,7 +22,6 @@ import UserCard from '../components/UserCard/UserCard';
 import Navbar from '../components/Navbar/Navbar';
 import BlogCard from '../components/Blog/Blog';
 import UserEdit from '../components/UserEditForm/UserEdit';
-import { Badge } from '@material-ui/core';
 
 const Profile = ({
   match,
@@ -37,6 +35,7 @@ const Profile = ({
     blogs: [],
     user: { firstName: '', lastName: '' },
   });
+  const [isLoading, setLoading] = useState(true);
 
   const [switchState, setSwitchState] = useState(
     auth?.followingUsers?.includes(match.params.id) ? true : false
@@ -64,6 +63,9 @@ const Profile = ({
           setUserData(response.data);
           console.log(response.data);
           setBlogs(response.data.blogs);
+          response.data.blogs.length !== 0
+            ? setLoading(true)
+            : setLoading(false);
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -102,6 +104,11 @@ const Profile = ({
     txtColor: {
       color: 'rgba(255, 255, 255, 0.7)',
     },
+    txt: {
+      textAlign: 'center',
+      color: 'darkgray',
+      fontSize: '40px',
+    },
   }));
 
   const classes = useStyles();
@@ -111,7 +118,7 @@ const Profile = ({
       <Navbar history={history} />
       <Container>
         <Typography variant='h3' gutterBottom className={classes.txtColor}>
-          Your Info
+          User Info
         </Typography>
         <Grid
           container
@@ -139,17 +146,6 @@ const Profile = ({
                     name='followCheck'
                   />
                 }
-                // label={
-                //   switchState ? (
-                //     <Badge badgeContent={'Following'} color='primary'>
-                //       Following
-                //     </Badge>
-                //   ) : (
-                //     <Badge color='primary' badgeContent={'Follow'}>
-                //       Follow
-                //     </Badge>
-                //   )
-                // }
               />
               {switchState ? (
                 <Badge
@@ -168,7 +164,7 @@ const Profile = ({
           )}
         </Grid>
         <Divider className={classes.mb} />
-        {userData.blogs.length === 0 && (
+        {userData.blogs.length === 0 && isLoading && (
           <Container className={classes.root}>
             <CircularProgress color='secondary' />
           </Container>
@@ -187,16 +183,11 @@ const Profile = ({
             tags={blog.tags}
           />
         ))}
-        {/* <Fab
-          color='secondary'
-          className={classes.editBtn}
-          onClick={() => setOpen(true)}
-        >
-          <EditIcon />
-        </Fab>
-        {open && (
-          <UserEdit isOpen={true} onClose={handleClose} editingUser={user} />
-        )} */}
+        {userData.blogs.length === 0 && isLoading === false && (
+          <Typography varient='h3' className={classes.txt}>
+            You have no blogs yet!
+          </Typography>
+        )}
       </Container>
     </Fragment>
   );

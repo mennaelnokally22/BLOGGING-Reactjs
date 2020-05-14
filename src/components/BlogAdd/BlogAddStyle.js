@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     borderLeft: `4px solid ${theme.palette.info.main}`,
     padding: theme.spacing(4),
+    borderRadius: '20px',
   },
   avatar: {
     backgroundColor: theme.palette.primary.main,

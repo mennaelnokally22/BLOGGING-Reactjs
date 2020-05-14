@@ -100,7 +100,7 @@ const BlogDetails = ({ blog, auth, history }) => {
           </time>
         </div>
       </Container>
-      {blog.photo != undefined && (
+      {blog.photo != 'null' && blog.photo != undefined && (
         <Box
           className={classes.img}
           style={{

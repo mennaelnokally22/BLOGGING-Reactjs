@@ -4,13 +4,29 @@ import { toast } from 'react-toastify';
 
 import axios from 'axios';
 
+import Pagination from '@material-ui/lab/Pagination';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  createMuiTheme,
+  ThemeProvider,
+} from '@material-ui/core/styles';
 
 import Navbar from '../components/Navbar/Navbar';
 import BlogCard from '../components/Blog/Blog';
 import { setBlogs } from '../actions/blog';
+import { Typography } from '@material-ui/core';
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiPaginationItem: {
+      page: {
+        color: 'white',
+      },
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   mb: {
@@ -29,20 +45,46 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  main: {
+    paddingBottom: '400px',
+  },
+  pagination: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: theme.spacing(4),
+  },
+  txt: {
+    textAlign: 'center',
+    color: 'darkgray',
+    fontSize: '40px',
+  },
 }));
 
 const FollowersBlogs = ({ auth, history, setBlogs }) => {
   const [userData, setUserData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pagesCount, setPagesCount] = useState(1);
+  const [isLoading, setLoading] = useState(true);
+
+  const handleChange = async (event, value) => {
+    setPage(value);
+    //const data = await fetchBlogsPages(value);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   useEffect(() => {
     (async () => {
       console.log(auth.token);
       axios
-        .get(`http://localhost:3000/user/followed/blogs`, {
+        .get(`http://localhost:3000/user/followed/blogs/${page}`, {
           headers: { Authorization: `${auth.token}` },
         })
         .then((response) => {
+          setPagesCount(response.data.pageCount);
           setUserData(response.data.blogs);
           setBlogs(response.data.blogs);
+          response.data.blogs.length !== 0
+            ? setLoading(true)
+            : setLoading(false);
           console.log(response.data.blogs);
         })
         .catch((err) => {
@@ -55,31 +97,51 @@ const FollowersBlogs = ({ auth, history, setBlogs }) => {
           }
         });
     })();
-  }, []);
+  }, [page]);
   const classes = useStyles();
   return (
-    <Fragment>
-      <Navbar history={history} />
-      {userData.length === 0 && (
-        <Container className={classes.root}>
-          <CircularProgress color='secondary' />
+    <ThemeProvider theme={theme}>
+      <Fragment>
+        <Navbar history={history} />
+        {userData.length === 0 && isLoading && (
+          <Container className={classes.root}>
+            <CircularProgress color='secondary' />
+          </Container>
+        )}
+        <Container className={classes.main}>
+          {userData.map((blog) => (
+            <BlogCard
+              key={blog._id}
+              id={blog._id}
+              title={blog.title}
+              body={blog.body}
+              photo={blog.photo}
+              author={blog.authorId.firstName}
+              authorLast={blog.authorId.lastName}
+              authorId={blog.authorId._id}
+              createdAt={blog.createdAt}
+              tags={blog.tags}
+            />
+          ))}
+          {userData.length !== 0 && (
+            <div className={classes.pagination}>
+              <Pagination
+                color='secondary'
+                size='large'
+                count={pagesCount}
+                page={page}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+          {userData.length === 0 && isLoading === false && (
+            <Typography varient='h3' className={classes.txt}>
+              You have no followers yet!
+            </Typography>
+          )}
         </Container>
-      )}
-      {userData.map((blog) => (
-        <BlogCard
-          key={blog._id}
-          id={blog._id}
-          title={blog.title}
-          body={blog.body}
-          photo={blog.photo}
-          author={blog.authorId.firstName}
-          authorLast={blog.authorId.lastName}
-          authorId={blog.authorId._id}
-          createdAt={blog.createdAt}
-          tags={blog.tags}
-        />
-      ))}
-    </Fragment>
+      </Fragment>
+    </ThemeProvider>
   );
 };
 
