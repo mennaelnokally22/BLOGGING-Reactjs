@@ -45,11 +45,6 @@ const BlogCard = ({
   const handleClose = () => {
     setOpen(false);
   };
-
-  {
-    console.log('authorID Profile', authorId);
-    console.log('auth', auth._id);
-  }
   return (
     <Container>
       <Paper

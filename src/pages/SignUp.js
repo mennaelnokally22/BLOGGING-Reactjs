@@ -106,7 +106,6 @@ const SignUp = ({ history, signUp }) => {
       .then((data) => {
         toast.success(`Signed up Successfully , Go and sign in now`);
         history.replace('/sign-in');
-        console.log(data);
       })
       .catch((err) => {
         toast.error(`Seems that this email is already registered!`);

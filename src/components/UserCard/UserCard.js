@@ -11,12 +11,7 @@ const UserCard = ({ children, title, description }) => {
       <Card className={(classes.root, classes.mainCard)}>
         <CardContent>
           {children}
-          <Typography
-            className={classes.title}
-            variant='h4'
-            //   color="textSecondary"
-            gutterBottom
-          >
+          <Typography className={classes.title} variant='h4' gutterBottom>
             {title}
           </Typography>
           <Typography variant='subtitle1' className={classes.desc}>

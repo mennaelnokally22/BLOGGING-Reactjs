@@ -72,12 +72,10 @@ const FollowersBlogs = ({ auth, history, setBlogs }) => {
 
   const handleChange = async (event, value) => {
     setPage(value);
-    //const data = await fetchBlogsPages(value);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   useEffect(() => {
     (async () => {
-      console.log(auth.token);
       axios
         .get(`http://localhost:3000/user/followed/blogs/${page}`, {
           headers: { Authorization: `${auth.token}` },
@@ -89,12 +87,9 @@ const FollowersBlogs = ({ auth, history, setBlogs }) => {
           response.data.blogs.length !== 0
             ? setLoading(true)
             : setLoading(false);
-          console.log(response.data.blogs);
         })
         .catch((err) => {
-          console.log(err.response.data);
           if (err.response?.data?.message == 'Token expired!') {
-            console.log('here');
             toast.error('Your session has expired go and sign in again!');
             localStorage.setItem('expired', '1');
             history.replace('/sign-in');

@@ -38,13 +38,10 @@ const BlogAdd = ({ onAddBlog }) => {
 
   const handleFileChange = (files) => {
     const file = files[0];
-    console.log(file);
     const fReader = new FileReader();
     if (file) fReader.readAsDataURL(file);
     fReader.onloadend = () => {
       setImgFile(file);
-      console.log(file);
-      console.log(fReader.result);
     };
   };
   const onSubmit = (data, e) => {

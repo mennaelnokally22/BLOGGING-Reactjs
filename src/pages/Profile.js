@@ -41,7 +41,6 @@ const Profile = ({
   );
 
   const handleChange = (event) => {
-    console.log(event.target.name, event.target.checked);
     setSwitchState(event.target.checked);
     onToggleFollowing(match.params.id, auth._id);
     if (event.target.checked) {
@@ -53,14 +52,12 @@ const Profile = ({
 
   useEffect(() => {
     (async () => {
-      console.log(auth.token);
       axios
         .get(`http://localhost:3000/user/${match.params.id}`, {
           headers: { Authorization: `${auth.token}` },
         })
         .then((response) => {
           setUserData(response.data);
-          console.log(response.data);
           setBlogs(response.data.blogs);
           response.data.blogs.length !== 0
             ? setLoading(true)
@@ -69,7 +66,6 @@ const Profile = ({
         .catch((err) => {
           console.log(err.response.data);
           if (err.response.data.message == 'Token expired!') {
-            console.log('here');
             toast.error('Your session has expired go and sign in again!');
             localStorage.setItem('expired', '1');
             history.replace('/sign-in');

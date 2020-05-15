@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -100,16 +100,13 @@ const SignIn = ({ history, signIn }) => {
   });
 
   const onSubmit = async (data) => {
-    // Sign in action
     signIn({ ...data })
       .then((data) => {
-        console.log(data);
         toast.success(`Welcome`);
         history.replace('/home');
       })
       .catch((err) => {
         toast.error(`Invalid email or password`);
-        console.log(err);
       });
   };
   return (

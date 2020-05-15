@@ -32,7 +32,6 @@ const Navbar = ({ history, setSearchText, setActiveFilter, auth }) => {
 
   const handleChange = (e) => {
     setSearchTxt(e.currentTarget.value);
-    console.log(searchText);
     setSearchText(e.currentTarget.value);
   };
   const handleKeyEnter = (e) => {
@@ -64,7 +63,7 @@ const Navbar = ({ history, setSearchText, setActiveFilter, auth }) => {
             <Typography className={classes.title} variant='h6' noWrap>
               MERN-Blogging
             </Typography>
-            {localStorage.getItem('token') && (
+            {auth.token && (
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
@@ -85,7 +84,7 @@ const Navbar = ({ history, setSearchText, setActiveFilter, auth }) => {
                 </Tooltip>
               </div>
             )}
-            {localStorage.getItem('token') && (
+            {auth.token && (
               <Tabs
                 value={value}
                 onChange={handleFiltersClick}

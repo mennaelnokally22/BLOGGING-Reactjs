@@ -96,14 +96,11 @@ const SearchResult = ({ searchData, auth, history }) => {
             { headers: { Authorization: auth.token } }
           )
           .then((response) => {
-            console.log(response.data);
             setFilteredBlogs(response.data);
             response.data.length !== 0 ? setLoading(true) : setLoading(false);
           })
           .catch((err) => {
-            console.log(err.response.data);
             if (err.response.data.message == 'Token expired!') {
-              console.log('here');
               toast.error('Your session has expired go and sign in again!');
               localStorage.setItem('expired', '1');
               history.replace('/sign-in');
@@ -118,14 +115,11 @@ const SearchResult = ({ searchData, auth, history }) => {
             }
           )
           .then((response) => {
-            console.log(response.data);
             setFilteredBlogs(response.data);
             response.data.length !== 0 ? setLoading(true) : setLoading(false);
           })
           .catch((err) => {
-            console.log(err.response.data);
             if (err.response.data.message == 'Token expired!') {
-              console.log('here');
               toast.error('Your session has expired go and sign in again!');
               localStorage.setItem('expired', '1');
               history.replace('/sign-in');
@@ -140,16 +134,13 @@ const SearchResult = ({ searchData, auth, history }) => {
             }
           )
           .then((response) => {
-            console.log(response.data);
             setFilteredUsers(response.data.users);
             response.data.users.length !== 0
               ? setLoading(true)
               : setLoading(false);
           })
           .catch((err) => {
-            console.log(err.response.data);
             if (err.response.data.message == 'Token expired!') {
-              console.log('here');
               toast.error('Your session has expired go and sign in again!');
               localStorage.setItem('expired', '1');
               history.replace('/sign-in');

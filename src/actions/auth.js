@@ -39,7 +39,6 @@ const onToggleFollowing = (followingId, userId) => {
         headers: { Authorization: `${localStorage.getItem('token')}` },
       }
     );
-    console.log(data);
     delete data.user.password;
     delete data.user.__v;
     localStorage.setItem('user', JSON.stringify(data.user));

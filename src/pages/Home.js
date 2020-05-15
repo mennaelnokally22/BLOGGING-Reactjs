@@ -48,11 +48,9 @@ const useStyles = makeStyles((theme) => ({
 const Home = ({ blogs, auth, history, fetchBlogs, fetchBlogsPages }) => {
   useEffect(() => {
     (async () => {
-      //await fetchBlogs();
       window.scrollTo({ top: 0, behavior: 'smooth' });
       const data = await fetchBlogsPages(1);
       setPagesCount(data.pagesCount);
-      console.log(data);
     })();
   }, []);
 
