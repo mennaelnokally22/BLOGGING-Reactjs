@@ -39,7 +39,9 @@ const useStyles = makeStyles((theme) => ({
     border: `2px solid ${theme.palette.info.main}`,
     borderRadius: '22px',
     color: theme.palette.info.main,
-    padding: '2px',
+    paddingLeft: '15px',
+    paddingRight: '15px',
+    textAlign: 'center',
   },
   mt: {
     marginTop: theme.spacing(2),
@@ -53,10 +55,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BlogDetails = ({ blog, auth, history }) => {
-  {
-    console.log(blog);
-    console.log(blog.photo);
-  }
   const classes = useStyles();
   return (
     <Fragment>
