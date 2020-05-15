@@ -30,9 +30,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   card: {
-    borderLeft: `4px solid ${theme.palette.primary.main}`,
+    borderLeft: `4px solid ${theme.palette.secondary.main}`,
     padding: theme.spacing(4),
     marginBottom: theme.spacing(4),
+    backgroundColor: 'transparent',
     width: '400px',
     transition: 'transform 0.2s ease-in-out',
     margin: '0 auto',
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   avatar: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
   },
   mb: {
     padding: theme.spacing(4),
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'rgba(255, 255, 255, 0.7)',
   },
   link: {
-    color: 'black',
+    color: 'white',
     textDecoration: 'none',
 
     '&:hover': {
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '40px',
   },
   btn: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: '0',
   },
 }));
