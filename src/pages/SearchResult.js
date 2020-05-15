@@ -112,9 +112,7 @@ const SearchResult = ({ searchData, auth, history }) => {
       } else if (searchData.activeFilter === 3) {
         axios
           .get(
-            `http://localhost:3000/blog/search?tag=${searchData.searchText.substring(
-              1
-            )}`,
+            `http://localhost:3000/blog/search?tag=${searchData.searchText}`,
             {
               headers: { Authorization: auth.token },
             }

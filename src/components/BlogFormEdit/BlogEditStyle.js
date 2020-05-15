@@ -1,4 +1,22 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiFormLabel: {
+      root: {
+        color: 'darkgray',
+      },
+    },
+    MuiInputBase: {
+      input: {
+        color: 'white',
+      },
+      multiline: {
+        color: 'white',
+      },
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   addBtn: {
@@ -24,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
   w: {
     width: '50%',
   },
+  dialog: {
+    backgroundColor: '#383535',
+    color: 'white',
+  },
 }));
 
-export default useStyles;
+export { useStyles, theme };

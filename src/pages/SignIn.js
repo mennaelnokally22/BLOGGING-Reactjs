@@ -38,6 +38,11 @@ const theme = createMuiTheme({
         color: 'darkgray',
       },
     },
+    MuiInputBase: {
+      input: {
+        color: 'darkgray',
+      },
+    },
   },
 });
 

@@ -180,7 +180,7 @@ const Profile = ({
             photo={blog.photo}
             author={userData.user.firstName}
             authorLast={userData.user.lastName}
-            authorId={blog.authorId}
+            authorId={blog.authorId._id}
             createdAt={blog.createdAt}
             tags={blog.tags}
           />

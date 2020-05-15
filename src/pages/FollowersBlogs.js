@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   main: {
-    paddingBottom: '400px',
+    paddingBottom: '460px',
   },
   pagination: {
     display: 'flex',
@@ -57,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     color: 'darkgray',
     fontSize: '40px',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
   },
 }));
 

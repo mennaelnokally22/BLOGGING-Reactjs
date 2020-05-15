@@ -48,7 +48,7 @@ const BlogCard = ({
 
   {
     console.log('authorID Profile', authorId);
-    console.log('photo', photo);
+    console.log('auth', auth._id);
   }
   return (
     <Container>
