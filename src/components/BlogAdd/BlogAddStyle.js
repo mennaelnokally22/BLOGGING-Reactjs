@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     transition: 'transform 0.2s ease-in-out',
     margin: '0 auto',
     marginBottom: theme.spacing(4),
-    width: '75%',
+    width: '50%',
     '&:hover': {
       transform: 'translateY(-4px)',
     },
@@ -90,8 +90,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.info.main,
   },
   dropZone: {
-    minHeight: 'auto',
-    backgroundColor: 'transparent',
+    minHeight: 'auto !important',
+    backgroundColor: 'transparent !important',
   },
 }));
 

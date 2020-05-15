@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
     transition: 'transform 0.2s ease-in-out',
     margin: '0 auto',
     marginBottom: theme.spacing(4),
-    width: '75%',
+    width: '50%',
     '&:hover': {
       transform: 'translateY(-4px)',
     },
@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     //backgroundColor: '#383535a6',
     backgroundColor: 'transparent',
     borderLeft: `4px solid ${theme.palette.info.main}`,
+    borderRight: `4px solid ${theme.palette.info.main}`,
     padding: theme.spacing(4),
   },
   avatar: {
@@ -76,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     border: '1px solid transparent',
     borderRadius: '20px',
+    marginTop: theme.spacing(2),
   },
 }));
 
