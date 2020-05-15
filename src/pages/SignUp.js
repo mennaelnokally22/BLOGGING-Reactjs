@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 import { makeStyles } from '@material-ui/core/styles';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-import { signUp } from '../actions/user';
+import { signUp } from '../actions/auth';
 
 const theme = createMuiTheme({
   overrides: {

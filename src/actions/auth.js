@@ -5,6 +5,13 @@ const setAuth = (userData) => ({
   userData,
 });
 
+const signUp = (user) => {
+  return async (dispatch) => {
+    const data = await axios.post('http://localhost:3000/user/register', user);
+    return data;
+  };
+};
+
 const signIn = (userData) => {
   return async (dispatch) => {
     const data = await axios.post('http://localhost:3000/user/login', userData);
@@ -40,4 +47,4 @@ const onToggleFollowing = (followingId, userId) => {
   };
 };
 
-export { signIn, setAuth, toggleFollowing, onToggleFollowing };
+export { signIn, setAuth, toggleFollowing, onToggleFollowing, signUp };
