@@ -45,6 +45,9 @@ const BlogCard = ({
   const handleClose = () => {
     setOpen(false);
   };
+  {
+    console.log(photo);
+  }
   return (
     <Container>
       <Paper
@@ -111,7 +114,7 @@ const BlogCard = ({
                 component='img'
                 display='block'
                 boxShadow={2}
-                src={`http://localhost:3000/${photo}`}
+                src={`${photo}`}
               />
             </Grid>
           </Grid>

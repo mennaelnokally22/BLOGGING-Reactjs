@@ -100,6 +100,7 @@ const SignIn = ({ history, signIn }) => {
   });
 
   const onSubmit = async (data) => {
+    console.log(data);
     signIn({ ...data })
       .then((data) => {
         toast.success(`Welcome`);

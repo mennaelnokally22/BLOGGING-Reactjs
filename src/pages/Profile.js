@@ -53,9 +53,12 @@ const Profile = ({
   useEffect(() => {
     (async () => {
       axios
-        .get(`http://localhost:3000/user/${match.params.id}`, {
-          headers: { Authorization: `${auth.token}` },
-        })
+        .get(
+          `https://blogging-api-nodejs.herokuapp.com/user/${match.params.id}`,
+          {
+            headers: { Authorization: `${auth.token}` },
+          }
+        )
         .then((response) => {
           setUserData(response.data);
           setBlogs(response.data.blogs);

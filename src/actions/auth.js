@@ -7,14 +7,22 @@ const setAuth = (userData) => ({
 
 const signUp = (user) => {
   return async (dispatch) => {
-    const data = await axios.post('http://localhost:3000/user/register', user);
+    const data = await axios.post(
+      'https://blogging-api-nodejs.herokuapp.com/user/register',
+      user
+    );
     return data;
   };
 };
 
 const signIn = (userData) => {
   return async (dispatch) => {
-    const data = await axios.post('http://localhost:3000/user/login', userData);
+    console.log('here');
+    const data = await axios.post(
+      'https://blogging-api-nodejs.herokuapp.com/user/login',
+      userData
+    );
+    console.log(data);
     delete data.data.user.password;
     delete data.data.user.__v;
     dispatch(setAuth({ token: data.data.token, ...data.data.user }));
@@ -33,7 +41,7 @@ const toggleFollowing = (followingId) => ({
 const onToggleFollowing = (followingId, userId) => {
   return async (dispatch) => {
     const { data } = await axios.post(
-      `http://localhost:3000/user/${followingId}/follow`,
+      `https://blogging-api-nodejs.herokuapp.com/user/${followingId}/follow`,
       null,
       {
         headers: { Authorization: `${localStorage.getItem('token')}` },

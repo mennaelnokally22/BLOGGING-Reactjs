@@ -101,7 +101,7 @@ const BlogDetails = ({ blog, auth, history }) => {
         <Box
           className={classes.img}
           style={{
-            backgroundImage: `url("http://localhost:3000/${blog.photo}")`,
+            backgroundImage: `url("${blog.photo}")`,
           }}
         ></Box>
       )}

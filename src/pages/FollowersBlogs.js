@@ -77,9 +77,12 @@ const FollowersBlogs = ({ auth, history, setBlogs }) => {
   useEffect(() => {
     (async () => {
       axios
-        .get(`http://localhost:3000/user/followed/blogs/${page}`, {
-          headers: { Authorization: `${auth.token}` },
-        })
+        .get(
+          `https://blogging-api-nodejs.herokuapp.com/user/followed/blogs/${page}`,
+          {
+            headers: { Authorization: `${auth.token}` },
+          }
+        )
         .then((response) => {
           setPagesCount(response.data.pageCount);
           setUserData(response.data.blogs);

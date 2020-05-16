@@ -93,7 +93,7 @@ const SearchResult = ({ searchData, auth, history }) => {
       if (searchData.activeFilter === 2) {
         axios
           .get(
-            `http://localhost:3000/blog/search?title=${searchData.searchText}`,
+            `https://blogging-api-nodejs.herokuapp.com/blog/search?title=${searchData.searchText}`,
             { headers: { Authorization: auth.token } }
           )
           .then((response) => {
@@ -110,7 +110,7 @@ const SearchResult = ({ searchData, auth, history }) => {
       } else if (searchData.activeFilter === 3) {
         axios
           .get(
-            `http://localhost:3000/blog/search?tag=${searchData.searchText}`,
+            `https://blogging-api-nodejs.herokuapp.com/blog/search?tag=${searchData.searchText}`,
             {
               headers: { Authorization: auth.token },
             }
@@ -129,7 +129,7 @@ const SearchResult = ({ searchData, auth, history }) => {
       } else if (searchData.activeFilter === 1) {
         axios
           .get(
-            `http://localhost:3000/user/search?name=${searchData.searchText}`,
+            `https://blogging-api-nodejs.herokuapp.com/user/search?name=${searchData.searchText}`,
             {
               headers: { Authorization: auth.token },
             }

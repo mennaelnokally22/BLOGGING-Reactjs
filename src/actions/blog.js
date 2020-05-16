@@ -23,7 +23,9 @@ const deleteBlog = (blogId) => ({
 
 const fetchBlogs = () => {
   return async (dispatch) => {
-    const { data: blogs } = await axios.get('http://localhost:3000/blog');
+    const { data: blogs } = await axios.get(
+      'https://blogging-api-nodejs.herokuapp.com/blog'
+    );
     dispatch(setBlogs(blogs));
   };
 };
@@ -31,7 +33,7 @@ const fetchBlogs = () => {
 const fetchBlogsPages = (pageNum) => {
   return async (dispatch) => {
     const { data } = await axios.get(
-      `http://localhost:3000/blog/pages/${pageNum}`
+      `https://blogging-api-nodejs.herokuapp.com/blog/pages/${pageNum}`
     );
     dispatch(setBlogs(data.blogs));
     return data;
@@ -46,12 +48,16 @@ const onAddBlog = (blog) => {
     formData.append('body', blog.body);
     formData.append('tags', JSON.stringify(blog.tags));
     formData.append('photo', blog.photo);
-    const { data } = await axios.post('http://localhost:3000/blog', formData, {
-      headers: {
-        Authorization: `${localStorage.getItem('token')}`,
-        'content-type': 'multipart/form-data',
-      },
-    });
+    const { data } = await axios.post(
+      'https://blogging-api-nodejs.herokuapp.com/blog',
+      formData,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+          'content-type': 'multipart/form-data',
+        },
+      }
+    );
     dispatch(addBlog(data.blog));
   };
 };
@@ -59,7 +65,7 @@ const onAddBlog = (blog) => {
 const onEditBlog = (blogId, updates) => {
   return async (dispatch) => {
     const { data } = await axios.patch(
-      `http://localhost:3000/blog/${blogId}`,
+      `https://blogging-api-nodejs.herokuapp.com/blog/${blogId}`,
       updates,
       {
         headers: { Authorization: `${localStorage.getItem('token')}` },
@@ -73,7 +79,7 @@ const onEditBlog = (blogId, updates) => {
 const onDeleteBlog = (blogId) => {
   return async (dispatch) => {
     const { data } = await axios.delete(
-      `http://localhost:3000/blog/${blogId}`,
+      `https://blogging-api-nodejs.herokuapp.com/blog/${blogId}`,
       {
         headers: { Authorization: `${localStorage.getItem('token')}` },
       }

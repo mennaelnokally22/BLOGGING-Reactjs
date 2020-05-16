@@ -102,6 +102,7 @@ const SignUp = ({ history, signUp }) => {
   });
 
   const onSubmit = async (data) => {
+    console.log(data);
     signUp({ ...data })
       .then((data) => {
         toast.success(`Signed up Successfully , Go and sign in now`);
