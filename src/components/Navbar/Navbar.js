@@ -52,14 +52,19 @@ const Navbar = ({ history, setSearchText, setActiveFilter, auth }) => {
       <div className={classes.grow}>
         <AppBar position='static' className={classes.dark}>
           <Toolbar>
-            <IconButton
-              edge='start'
-              className={classes.menuButton}
-              color='inherit'
-              aria-label='open drawer'
-            >
-              <DonutSmallIcon fontSize='large' className={classes.iconColor} />
-            </IconButton>
+            <Link to={'/home'} className={classes.resetLink}>
+              <IconButton
+                edge='start'
+                className={classes.menuButton}
+                color='inherit'
+                aria-label='open drawer'
+              >
+                <DonutSmallIcon
+                  fontSize='large'
+                  className={classes.iconColor}
+                />
+              </IconButton>
+            </Link>
             <Typography className={classes.title} variant='h6' noWrap>
               Wiki-Blog
             </Typography>
