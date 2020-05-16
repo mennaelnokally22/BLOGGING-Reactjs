@@ -66,7 +66,7 @@ const Home = ({ blogs, auth, history, fetchBlogs, fetchBlogsPages }) => {
   };
   return (
     <ThemeProvider theme={theme}>
-      <Fragment>
+      <div style={{ paddingBottom: '300px' }}>
         <Navbar history={history} />
         {auth.token && <BlogAdd />}
 
@@ -99,7 +99,7 @@ const Home = ({ blogs, auth, history, fetchBlogs, fetchBlogsPages }) => {
             onChange={handleChange}
           />
         </div>
-      </Fragment>
+      </div>
     </ThemeProvider>
   );
 };
