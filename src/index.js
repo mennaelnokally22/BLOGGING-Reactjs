@@ -11,6 +11,7 @@ import store from './store/store';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-toastify/dist/ReactToastify.min.css';
 
+document.title = 'Wiki-Blog';
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
