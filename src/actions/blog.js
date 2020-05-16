@@ -59,6 +59,7 @@ const onAddBlog = (blog) => {
       }
     );
     dispatch(addBlog(data.blog));
+    return data;
   };
 };
 

@@ -49,11 +49,17 @@ const BlogAdd = ({ onAddBlog }) => {
       ...data,
       tags: data.tags.split(' '),
       photo: imgFile,
-    });
-    e.target.title.value = '';
-    e.target.body.value = '';
-    e.target.tags.value = '';
-    toast.success(`Blog ${data.title} added successfully!`);
+    })
+      .then((response) => {
+        e.target.title.value = '';
+        e.target.body.value = '';
+        e.target.tags.value = '';
+        setImgFile(null);
+        toast.success(`Blog ${data.title} added successfully!`);
+      })
+      .catch((err) => {
+        toast.error(`Try again later!`);
+      });
   };
   return (
     <ThemeProvider theme={theme}>
@@ -108,6 +114,7 @@ const BlogAdd = ({ onAddBlog }) => {
                   maxFileSize={(1000 * 1000) / 2}
                   showPreviewsInDropzone={true}
                   dropzoneClass={classes.dropZone}
+                  clearOnUnmount={true}
                 />
               </Box>
               <Button

@@ -61,7 +61,7 @@ const Navbar = ({ history, setSearchText, setActiveFilter, auth }) => {
               <DonutSmallIcon fontSize='large' className={classes.iconColor} />
             </IconButton>
             <Typography className={classes.title} variant='h6' noWrap>
-              MERN-Blogging
+              Wiki-Blog
             </Typography>
             {auth.token && (
               <div className={classes.search}>
