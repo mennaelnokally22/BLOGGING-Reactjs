@@ -17,7 +17,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
 
 import { onAddBlog } from '../../actions/blog';
-import { Box } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 
 const BlogSchema = object().shape({
   title: string().required('Blog title is required!'),
@@ -64,69 +64,73 @@ const BlogAdd = ({ onAddBlog }) => {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <ButtonBase component='a' className={classes.cardContainer}>
-          <Paper className={classes.card} elevation={2}>
-            <Typography variant='h4' className={classes.txtColor}>
-              Add your new blog
-            </Typography>
-            <form onSubmit={handleSubmit(onSubmit)} noValidate>
-              <TextField
-                id='title'
-                name='title'
-                label='Blog Title'
-                type='text'
-                fullWidth
-                variant='outlined'
-                margin='normal'
-                error={!!errors.title}
-                helperText={errors.title?.message}
-                inputRef={register}
-              />
-              <TextField
-                id='body'
-                name='body'
-                label='Blog Body'
-                variant='outlined'
-                multiline
-                rows='4'
-                fullWidth
-                margin='normal'
-                error={!!errors.body}
-                helperText={errors.body?.message}
-                inputRef={register}
-              />
-              <TextField
-                id='tags'
-                name='tags'
-                label='Blog Tags'
-                type='text'
-                fullWidth
-                variant='outlined'
-                margin='normal'
-                inputRef={register}
-              />
-              <Box>
-                <DropzoneArea
-                  onChange={handleFileChange}
-                  acceptedFiles={['image/*']}
-                  filesLimit={1}
-                  dropzoneText={`Drag & Drop image here or click`}
-                  maxFileSize={(1000 * 1000) / 2}
-                  showPreviewsInDropzone={true}
-                  dropzoneClass={classes.dropZone}
-                  clearOnUnmount={true}
-                />
-              </Box>
-              <Button
-                type='submit'
-                variant='contained'
-                className={classes.submitBtn}
-              >
-                Add
-              </Button>
-            </form>
-          </Paper>
-        </ButtonBase>
+        <Grid container alignItems='center'>
+          <Grid item xs={12} lg={6} className={classes.cardContainer}>
+            <ButtonBase component='a'>
+              <Paper className={classes.card} elevation={2}>
+                <Typography variant='h4' className={classes.txtColor}>
+                  Add your new blog
+                </Typography>
+                <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                  <TextField
+                    id='title'
+                    name='title'
+                    label='Blog Title'
+                    type='text'
+                    fullWidth
+                    variant='outlined'
+                    margin='normal'
+                    error={!!errors.title}
+                    helperText={errors.title?.message}
+                    inputRef={register}
+                  />
+                  <TextField
+                    id='body'
+                    name='body'
+                    label='Blog Body'
+                    variant='outlined'
+                    multiline
+                    rows='4'
+                    fullWidth
+                    margin='normal'
+                    error={!!errors.body}
+                    helperText={errors.body?.message}
+                    inputRef={register}
+                  />
+                  <TextField
+                    id='tags'
+                    name='tags'
+                    label='Blog Tags'
+                    type='text'
+                    fullWidth
+                    variant='outlined'
+                    margin='normal'
+                    inputRef={register}
+                  />
+                  <Box>
+                    <DropzoneArea
+                      onChange={handleFileChange}
+                      acceptedFiles={['image/*']}
+                      filesLimit={1}
+                      dropzoneText={`Drag & Drop image here or click`}
+                      maxFileSize={(1000 * 1000) / 2}
+                      showPreviewsInDropzone={true}
+                      dropzoneClass={classes.dropZone}
+                      clearOnUnmount={true}
+                    />
+                  </Box>
+                  <Button
+                    type='submit'
+                    variant='contained'
+                    className={classes.submitBtn}
+                  >
+                    Add
+                  </Button>
+                </form>
+              </Paper>
+            </ButtonBase>
+          </Grid>
+        </Grid>
       </Container>
     </ThemeProvider>
   );

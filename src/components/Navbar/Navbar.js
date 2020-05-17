@@ -65,7 +65,7 @@ const Navbar = ({ history, setSearchText, setActiveFilter, auth }) => {
                 />
               </IconButton>
             </Link>
-            <Typography className={classes.title} variant='h6' noWrap>
+            <Typography className={classes.title} variant='h6'>
               Wiki-Blog
             </Typography>
             {auth.token && (
@@ -122,7 +122,7 @@ const Navbar = ({ history, setSearchText, setActiveFilter, auth }) => {
               </Tabs>
             )}
             <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
+            <div>
               <Link to={'/home'} className={classes.resetLink}>
                 <IconButton
                   edge='end'

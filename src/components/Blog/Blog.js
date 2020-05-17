@@ -47,131 +47,140 @@ const BlogCard = ({
   };
   return (
     <Container>
-      <Paper
-        className={`${classes.card} ${classes.cardContainer}`}
-        elevation={2}
-      >
-        <Grid container alignItems='center' spacing={2} className={classes.mb}>
-          {author != undefined && (
-            <Grid item>
-              <Avatar
-                title={author}
-                variant='rounded'
-                className={classes.avatar}
-              >
-                {`${author.charAt(0)}${authorLast.charAt(0)}`}
-              </Avatar>
-            </Grid>
-          )}
-          {auth.token === null && (
-            <Grid item component={'h4'} className={classes.authorName}>
-              {`${author} ${authorLast}`}
-            </Grid>
-          )}
-          {auth.token && (
-            <Grid
-              item
-              component={Link}
-              to={`/profile/${authorId}`}
-              className={classes.link}
-            >
-              {`${author} ${authorLast}`}
-            </Grid>
-          )}
-
-          {auth.token &&
-            auth._id !== authorId &&
-            auth.followingUsers.includes(authorId) && (
+      <Grid container alignItems='center' className={classes.mb}>
+        <Grid
+          item
+          className={`${classes.card} ${classes.cardContainer}`}
+          xs={12}
+          lg={6}
+        >
+          <Grid
+            container
+            alignItems='center'
+            spacing={2}
+            className={classes.mb}
+          >
+            {author != undefined && (
               <Grid item>
-                <Badge color='secondary' badgeContent={'F'}>
-                  <CheckCircleIcon className={classes.iconColor} />
-                </Badge>
+                <Avatar
+                  title={author}
+                  variant='rounded'
+                  className={classes.avatar}
+                >
+                  {`${author.charAt(0)}${authorLast.charAt(0)}`}
+                </Avatar>
               </Grid>
             )}
-        </Grid>
-
-        <Typography variant='h4' className={classes.txtColor}>
-          <Link to={`/blog/${id}`} className={classes.link}>
-            {title}
-          </Link>
-        </Typography>
-
-        <Typography
-          variant='subtitle1'
-          className={`${classes.mt} ${classes.txtColor}`}
-        >
-          {`${body.substr(0, 250)} ${body.length > 250 ? '....' : ''}`}
-        </Typography>
-
-        {photo != 'null' && photo != undefined && (
-          <Grid container alignItems='center' justify='flex-start'>
-            <Grid item sm={6}>
-              <Box
-                className={classes.img}
-                component='img'
-                display='block'
-                boxShadow={2}
-                src={`${photo}`}
-              />
-            </Grid>
-          </Grid>
-        )}
-        <Grid
-          container
-          alignItems='center'
-          justify='flex-start'
-          spacing={2}
-          className={classes.mt}
-        >
-          {tags.length !== 0 &&
-            tags[0] !== '' &&
-            tags.map((tag) => (
-              <Grid item key={tag}>
-                <Typography className={classes.tags} variant='subtitle1'>
-                  {tag}
-                </Typography>
+            {auth.token === null && (
+              <Grid item component={'h4'} className={classes.authorName}>
+                {`${author} ${authorLast}`}
               </Grid>
-            ))}
-        </Grid>
-        <Grid
-          container
-          justify='space-between'
-          alignItems='center'
-          className={classes.createdAt}
-        >
-          <div className={classes.timeContainer}>
-            <EventAvailableIcon
-              style={{ marginRight: '3px' }}
-              className={classes.iconColor}
-            />
-            <time
-              dateTime={moment(createdAt).format()}
-              className={classes.txtColor}
-            >
-              {moment(createdAt).format('D MMMM YYYY')}
-            </time>
-          </div>
-          {auth.token && auth._id === authorId && (
-            <Grid item>
-              <Button
-                onClick={() => {
-                  onDeleteBlog(id);
-                  toast.success(`Blog ${title} deleted successfully!`);
-                }}
+            )}
+            {auth.token && (
+              <Grid
+                item
+                component={Link}
+                to={`/profile/${authorId}`}
+                className={classes.link}
               >
-                <DeleteIcon className={classes.iconColor} />
-              </Button>
-              <Button
-                onClick={() => {
-                  setOpen(true);
-                }}
-              >
-                <BorderColorIcon className={classes.iconColor} />
-              </Button>
+                {`${author} ${authorLast}`}
+              </Grid>
+            )}
+
+            {auth.token &&
+              auth._id !== authorId &&
+              auth.followingUsers.includes(authorId) && (
+                <Grid item>
+                  <Badge color='secondary' badgeContent={'F'}>
+                    <CheckCircleIcon className={classes.iconColor} />
+                  </Badge>
+                </Grid>
+              )}
+          </Grid>
+
+          <Typography variant='h4' className={classes.txtColor}>
+            <Link to={`/blog/${id}`} className={classes.link}>
+              {title}
+            </Link>
+          </Typography>
+
+          <Typography
+            variant='subtitle1'
+            className={`${classes.mt} ${classes.txtColor}`}
+          >
+            {`${body.substr(0, 250)} ${body.length > 250 ? '....' : ''}`}
+          </Typography>
+
+          {photo != 'null' && photo != undefined && (
+            <Grid container alignItems='center' justify='flex-start'>
+              <Grid item sm={6}>
+                <Box
+                  className={classes.img}
+                  component='img'
+                  display='block'
+                  boxShadow={2}
+                  src={`${photo}`}
+                />
+              </Grid>
             </Grid>
           )}
+          <Grid
+            container
+            alignItems='center'
+            justify='flex-start'
+            spacing={2}
+            className={classes.mt}
+          >
+            {tags.length !== 0 &&
+              tags[0] !== '' &&
+              tags.map((tag) => (
+                <Grid item key={tag}>
+                  <Typography className={classes.tags} variant='subtitle1'>
+                    {tag}
+                  </Typography>
+                </Grid>
+              ))}
+          </Grid>
+          <Grid
+            container
+            justify='space-between'
+            alignItems='center'
+            className={classes.createdAt}
+          >
+            <div className={classes.timeContainer}>
+              <EventAvailableIcon
+                style={{ marginRight: '3px' }}
+                className={classes.iconColor}
+              />
+              <time
+                dateTime={moment(createdAt).format()}
+                className={classes.txtColor}
+              >
+                {moment(createdAt).format('D MMMM YYYY')}
+              </time>
+            </div>
+            {auth.token && auth._id === authorId && (
+              <Grid item>
+                <Button
+                  onClick={() => {
+                    onDeleteBlog(id);
+                    toast.success(`Blog ${title} deleted successfully!`);
+                  }}
+                >
+                  <DeleteIcon className={classes.iconColor} />
+                </Button>
+                <Button
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                >
+                  <BorderColorIcon className={classes.iconColor} />
+                </Button>
+              </Grid>
+            )}
+          </Grid>
         </Grid>
-      </Paper>
+      </Grid>
       {open && (
         <BlogEdit
           editingBlog={{ id, title, body, tags }}

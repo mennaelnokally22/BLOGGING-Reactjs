@@ -7,6 +7,11 @@ const theme = createMuiTheme({
         backgroundColor: '#2196f3',
       },
     },
+    MuiToolbar: {
+      root: {
+        flexWrap: 'wrap',
+      },
+    },
   },
 });
 
