@@ -45,9 +45,6 @@ const BlogCard = ({
   const handleClose = () => {
     setOpen(false);
   };
-  {
-    console.log(photo);
-  }
   return (
     <Container>
       <Paper
@@ -126,13 +123,15 @@ const BlogCard = ({
           spacing={2}
           className={classes.mt}
         >
-          {tags.map((tag) => (
-            <Grid item key={tag}>
-              <Typography className={classes.tags} variant='subtitle1'>
-                {tag}
-              </Typography>
-            </Grid>
-          ))}
+          {tags.length !== 0 &&
+            tags[0] !== '' &&
+            tags.map((tag) => (
+              <Grid item key={tag}>
+                <Typography className={classes.tags} variant='subtitle1'>
+                  {tag}
+                </Typography>
+              </Grid>
+            ))}
         </Grid>
         <Grid
           container
