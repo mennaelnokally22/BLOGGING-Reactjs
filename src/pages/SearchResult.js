@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import axios from 'axios';
+import { setBlogs } from '../actions/blog';
 
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchResult = ({ searchData, auth, history }) => {
+const SearchResult = ({ searchData, auth, history, setBlogs }) => {
   const [filteredBlogss, setFilteredBlogs] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -99,6 +100,7 @@ const SearchResult = ({ searchData, auth, history }) => {
           .then((response) => {
             setFilteredBlogs(response.data);
             response.data.length !== 0 ? setLoading(true) : setLoading(false);
+            setBlogs(response.data);
           })
           .catch((err) => {
             if (err.response.data.message == 'Token expired!') {
@@ -118,6 +120,7 @@ const SearchResult = ({ searchData, auth, history }) => {
           .then((response) => {
             setFilteredBlogs(response.data);
             response.data.length !== 0 ? setLoading(true) : setLoading(false);
+            setBlogs(response.data);
           })
           .catch((err) => {
             if (err.response.data.message == 'Token expired!') {
@@ -225,4 +228,7 @@ const mapStateToProps = (state) => ({
   searchData: state.search,
   auth: state.auth,
 });
-export default connect(mapStateToProps)(SearchResult);
+const mapDispatchToProps = (dispatch) => ({
+  setBlogs: (blogs) => dispatch(setBlogs(blogs)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResult);
